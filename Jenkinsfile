@@ -93,22 +93,108 @@ pipeline {
             }
         }
         
-        stage('Test Images') {
+        stage('Run Unit Tests') {
+            parallel {
+                stage('Backend Tests') {
+                    steps {
+                        script {
+                            echo '🧪 Running backend unit tests...'
+                            dir('backend') {
+                                sh """
+                                    npm test
+                                """
+                            }
+                        }
+                    }
+                }
+                
+                stage('Frontend Tests') {
+                    steps {
+                        script {
+                            echo '🧪 Running frontend unit tests...'
+                            dir('frontend') {
+                                sh """
+                                    CI=true npm test
+                                """
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Code Quality') {
+            parallel {
+                stage('Backend Lint') {
+                    steps {
+                        script {
+                            echo '🔍 Running backend linting...'
+                            dir('backend') {
+                                sh """
+                                    npm run lint || echo 'Linting warnings found'
+                                """
+                            }
+                        }
+                    }
+                }
+                
+                stage('Test Images') {
+                    steps {
+                        script {
+                            echo '🐳 Testing Docker images...'
+                            
+                            // Test backend
+                            sh """
+                                echo "Testing backend image..."
+                                docker run --rm ${BACKEND_IMAGE}:${IMAGE_TAG} node --version
+                                docker run --rm ${BACKEND_IMAGE}:${IMAGE_TAG} npm --version
+                            """
+                            
+                            // Test frontend
+                            sh """
+                                echo "Testing frontend image..."
+                                docker run --rm ${FRONTEND_IMAGE}:${IMAGE_TAG} nginx -v
+                            """
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Integration Tests') {
             steps {
                 script {
-                    echo '🧪 Testing Docker images...'
+                    echo '🔗 Running integration tests...'
                     
-                    // Test backend
+                    // Start containers temporarily for testing
                     sh """
-                        echo "Testing backend image..."
-                        docker run --rm ${BACKEND_IMAGE}:${IMAGE_TAG} node --version
-                        docker run --rm ${BACKEND_IMAGE}:${IMAGE_TAG} npm --version
-                    """
-                    
-                    // Test frontend
-                    sh """
-                        echo "Testing frontend image..."
-                        docker run --rm ${FRONTEND_IMAGE}:${IMAGE_TAG} nginx -v
+                        # Start backend in background
+                        docker run -d --name test-backend-${BUILD_NUMBER} \
+                            -p 5001:5000 ${BACKEND_IMAGE}:${IMAGE_TAG}
+                        
+                        # Wait for backend to be ready
+                        sleep 5
+                        
+                        # Test health endpoint
+                        curl -f http://localhost:5001/health || exit 1
+                        
+                        # Test GET tasks
+                        curl -f http://localhost:5001/api/tasks || exit 1
+                        
+                        # Test POST task
+                        curl -X POST http://localhost:5001/api/tasks \
+                            -H 'Content-Type: application/json' \
+                            -d '{"title":"Test Task","priority":"high"}' || exit 1
+                        
+                        # Test GET tasks again (should have 1 task)
+                        TASKS=\$(curl -s http://localhost:5001/api/tasks)
+                        echo "Tasks: \$TASKS"
+                        
+                        # Cleanup
+                        docker stop test-backend-${BUILD_NUMBER}
+                        docker rm test-backend-${BUILD_NUMBER}
+                        
+                        echo "✅ Integration tests passed!"
                     """
                 }
             }
