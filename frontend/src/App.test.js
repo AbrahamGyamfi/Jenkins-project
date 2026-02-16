@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from './App';
 
 // Mock fetch globally
@@ -13,20 +13,32 @@ describe('App Component', () => {
     });
   });
 
-  test('renders TaskFlow heading', () => {
+  test('renders TaskFlow heading', async () => {
     render(<App />);
-    const headingElement = screen.getByText(/taskflow/i);
+    const headingElement = screen.getByRole('heading', { name: /taskflow/i });
     expect(headingElement).toBeInTheDocument();
+    
+    // Wait for async operations to complete
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalled();
+    });
   });
 
-  test('renders task form', () => {
+  test('renders task form', async () => {
     render(<App />);
     const inputElement = screen.getByPlaceholderText(/task title/i);
     expect(inputElement).toBeInTheDocument();
+    
+    // Wait for async operations to complete
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalled();
+    });
   });
 
-  test('fetches tasks on mount', () => {
+  test('fetches tasks on mount', async () => {
     render(<App />);
-    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/api/tasks'));
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/api/tasks'));
+    });
   });
 });
