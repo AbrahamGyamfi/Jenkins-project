@@ -2,16 +2,16 @@
 version: '3.8'
 
 services:
-  taskflow-app:
+  taskflow-backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
       args:
-        BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
+        BUILD_DATE: ${BUILD_DATE:-dev}
         VCS_REF: ${VCS_REF:-dev}
         BUILD_NUMBER: ${BUILD_NUMBER:-dev}
-    image: taskflow-app:latest
-    container_name: taskflow-app-dev
+    image: taskflow-backend:latest
+    container_name: taskflow-backend-dev
     ports:
       - "5000:5000"
     environment:
@@ -24,6 +24,30 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    networks:
+      - taskflow-network
+
+  taskflow-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        BUILD_DATE: ${BUILD_DATE:-dev}
+        VCS_REF: ${VCS_REF:-dev}
+        BUILD_NUMBER: ${BUILD_NUMBER:-dev}
+    image: taskflow-frontend:latest
+    container_name: taskflow-frontend-dev
+    ports:
+      - "80:80"
+    depends_on:
+      - taskflow-backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     networks:
       - taskflow-network
 
