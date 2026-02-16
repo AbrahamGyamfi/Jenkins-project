@@ -197,28 +197,25 @@ pipeline {
                 }
             }
         }
-        }
         
         stage('Health Check') {
             steps {
                 script {
                     echo '🏥 Running health checks...'
                     
-                    sshagent(credentials: ["${EC2_CREDENTIALS_ID}"]) {
-                        def healthStatus = sh(
-                            script: """
-                                ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
-                                    curl -s http://localhost/health | grep healthy
-                                '
-                            """,
-                            returnStatus: true
-                        )
-                        
-                        if (healthStatus == 0) {
-                            echo "✅ Application is healthy!"
-                        } else {
-                            error "❌ Health check failed!"
-                        }
+                    def healthStatus = sh(
+                        script: """
+                            ssh -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                                curl -s http://localhost/health | grep healthy
+                            '
+                        """,
+                        returnStatus: true
+                    )
+                    
+                    if (healthStatus == 0) {
+                        echo "✅ Application is healthy!"
+                    } else {
+                        error "❌ Health check failed!"
                     }
                 }
             }
