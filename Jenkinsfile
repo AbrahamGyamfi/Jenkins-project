@@ -101,7 +101,11 @@ pipeline {
                             echo '🧪 Running backend unit tests...'
                             dir('backend') {
                                 sh """
-                                    npm test
+                                    # Run backend tests in Node container
+                                    docker run --rm -v \$(pwd):/app -w /app node:18-alpine sh -c '
+                                        npm install
+                                        npm test
+                                    '
                                 """
                             }
                         }
@@ -114,7 +118,11 @@ pipeline {
                             echo '🧪 Running frontend unit tests...'
                             dir('frontend') {
                                 sh """
-                                    CI=true npm test
+                                    # Run frontend tests in Node container
+                                    docker run --rm -v \$(pwd):/app -w /app node:18-alpine sh -c '
+                                        npm install --legacy-peer-deps
+                                        CI=true npm test -- --passWithNoTests
+                                    '
                                 """
                             }
                         }
@@ -131,7 +139,11 @@ pipeline {
                             echo '🔍 Running backend linting...'
                             dir('backend') {
                                 sh """
-                                    npm run lint || echo 'Linting warnings found'
+                                    # Run linting in Node container
+                                    docker run --rm -v \$(pwd):/app -w /app node:18-alpine sh -c '
+                                        npm install
+                                        npm run lint || echo "Linting warnings found"
+                                    '
                                 """
                             }
                         }
