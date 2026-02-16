@@ -1,0 +1,246 @@
+pipeline {
+    agent any
+    
+    environment {
+        // Docker Hub credentials
+        DOCKER_REGISTRY = 'docker.io'
+        DOCKER_CREDENTIALS_ID = 'dockerhub-credentials'
+        DOCKER_USERNAME = 'abgyamfi'
+        
+        // Docker images
+        BACKEND_IMAGE = "${DOCKER_USERNAME}/taskflow-backend"
+        FRONTEND_IMAGE = "${DOCKER_USERNAME}/taskflow-frontend"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        
+        // EC2 Deployment Server
+        EC2_CREDENTIALS_ID = 'ec2-ssh-key'
+        EC2_HOST = '' // Will be set dynamically or from Jenkins credentials
+        EC2_USER = 'ubuntu'
+        
+        // Application
+        APP_NAME = 'taskflow'
+    }
+    
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timestamps()
+        timeout(time: 30, unit: 'MINUTES')
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    echo '📥 Checking out code...'
+                    checkout scm
+                    
+                    // Get git commit info
+                    env.GIT_COMMIT_MSG = sh(
+                        script: 'git log -1 --pretty=%B',
+                        returnStdout: true
+                    ).trim()
+                    env.GIT_AUTHOR = sh(
+                        script: 'git log -1 --pretty=%an',
+                        returnStdout: true
+                    ).trim()
+                    
+                    echo "Commit: ${env.GIT_COMMIT_MSG}"
+                    echo "Author: ${env.GIT_AUTHOR}"
+                }
+            }
+        }
+        
+        stage('Build Docker Images') {
+            parallel {
+                stage('Build Backend') {
+                    steps {
+                        script {
+                            echo '🔨 Building backend Docker image...'
+                            dir('backend') {
+                                sh """
+                                    docker build \
+                                        --build-arg BUILD_DATE=\$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
+                                        --build-arg VCS_REF=\${GIT_COMMIT} \
+                                        --build-arg BUILD_NUMBER=\${BUILD_NUMBER} \
+                                        -t ${BACKEND_IMAGE}:${IMAGE_TAG} \
+                                        -t ${BACKEND_IMAGE}:latest \
+                                        .
+                                """
+                            }
+                        }
+                    }
+                }
+                
+                stage('Build Frontend') {
+                    steps {
+                        script {
+                            echo '🔨 Building frontend Docker image...'
+                            dir('frontend') {
+                                sh """
+                                    docker build \
+                                        --build-arg BUILD_DATE=\$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
+                                        --build-arg VCS_REF=\${GIT_COMMIT} \
+                                        --build-arg BUILD_NUMBER=\${BUILD_NUMBER} \
+                                        -t ${FRONTEND_IMAGE}:${IMAGE_TAG} \
+                                        -t ${FRONTEND_IMAGE}:latest \
+                                        .
+                                """
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Test Images') {
+            steps {
+                script {
+                    echo '🧪 Testing Docker images...'
+                    
+                    // Test backend
+                    sh """
+                        echo "Testing backend image..."
+                        docker run --rm ${BACKEND_IMAGE}:${IMAGE_TAG} node --version
+                        docker run --rm ${BACKEND_IMAGE}:${IMAGE_TAG} npm --version
+                    """
+                    
+                    // Test frontend
+                    sh """
+                        echo "Testing frontend image..."
+                        docker run --rm ${FRONTEND_IMAGE}:${IMAGE_TAG} nginx -v
+                    """
+                }
+            }
+        }
+        
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    echo '📤 Pushing images to Docker Hub...'
+                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS_ID}") {
+                        // Push backend
+                        sh """
+                            docker push ${BACKEND_IMAGE}:${IMAGE_TAG}
+                            docker push ${BACKEND_IMAGE}:latest
+                        """
+                        
+                        // Push frontend
+                        sh """
+                            docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
+                            docker push ${FRONTEND_IMAGE}:latest
+                        """
+                    }
+                    
+                    echo "✅ Images pushed successfully!"
+                    echo "Backend: ${BACKEND_IMAGE}:${IMAGE_TAG}"
+                    echo "Frontend: ${FRONTEND_IMAGE}:${IMAGE_TAG}"
+                }
+            }
+        }
+        
+        stage('Deploy to EC2') {
+            steps {
+                script {
+                    echo '🚀 Deploying to EC2...'
+                    
+                    sshagent(credentials: ["${EC2_CREDENTIALS_ID}"]) {
+                        // Create deployment directory
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                                mkdir -p ~/taskflow
+                            '
+                        """
+                        
+                        // Copy docker-compose file
+                        sh """
+                            scp -o StrictHostKeyChecking=no \
+                                docker-compose.prod.yml \
+                                ${EC2_USER}@${EC2_HOST}:~/taskflow/docker-compose.yml
+                        """
+                        
+                        // Deploy application
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                                cd ~/taskflow
+                                
+                                # Pull latest images
+                                docker pull ${BACKEND_IMAGE}:${IMAGE_TAG}
+                                docker pull ${FRONTEND_IMAGE}:${IMAGE_TAG}
+                                
+                                # Stop existing containers
+                                docker-compose down || true
+                                
+                                # Start new containers
+                                IMAGE_TAG=${IMAGE_TAG} docker-compose up -d
+                                
+                                # Wait for services to be healthy
+                                sleep 10
+                                
+                                # Check container status
+                                docker-compose ps
+                                
+                                # Verify application is running
+                                curl -f http://localhost/health || exit 1
+                                
+                                echo "✅ Deployment successful!"
+                            '
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Health Check') {
+            steps {
+                script {
+                    echo '🏥 Running health checks...'
+                    
+                    sshagent(credentials: ["${EC2_CREDENTIALS_ID}"]) {
+                        def healthStatus = sh(
+                            script: """
+                                ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                                    curl -s http://localhost/health | grep healthy
+                                '
+                            """,
+                            returnStatus: true
+                        )
+                        
+                        if (healthStatus == 0) {
+                            echo "✅ Application is healthy!"
+                        } else {
+                            error "❌ Health check failed!"
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            script {
+                echo '🧹 Cleaning up...'
+                // Clean up Docker images on Jenkins server
+                sh """
+                    docker image prune -f
+                    docker container prune -f
+                """
+            }
+        }
+        
+        success {
+            echo '✅ =================================='
+            echo '✅ PIPELINE COMPLETED SUCCESSFULLY!'
+            echo '✅ =================================='
+            echo "Backend Image: ${BACKEND_IMAGE}:${IMAGE_TAG}"
+            echo "Frontend Image: ${FRONTEND_IMAGE}:${IMAGE_TAG}"
+            echo "Deployed to: http://${EC2_HOST}"
+        }
+        
+        failure {
+            echo '❌ =================================='
+            echo '❌ PIPELINE FAILED!'
+            echo '❌ =================================='
+        }
+    }
+}
