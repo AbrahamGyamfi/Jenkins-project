@@ -3,7 +3,7 @@ version: '3.8'
 
 services:
   taskflow-backend:
-    image: ${REGISTRY_URL:-your-registry-url}/taskflow-backend:${IMAGE_TAG:-latest}
+    image: ${REGISTRY_URL:-abgyamfi}/taskflow-backend:${IMAGE_TAG:-latest}
     container_name: taskflow-backend-prod
     ports:
       - "5000:5000"
@@ -26,7 +26,7 @@ services:
       - taskflow-network
 
   taskflow-frontend:
-    image: ${REGISTRY_URL:-your-registry-url}/taskflow-frontend:${IMAGE_TAG:-latest}
+    image: ${REGISTRY_URL:-abgyamfi}/taskflow-frontend:${IMAGE_TAG:-latest}
     container_name: taskflow-frontend-prod
     ports:
       - "80:80"
