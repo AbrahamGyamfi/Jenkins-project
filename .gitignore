@@ -27,3 +27,5 @@ Thumbs.db
 # Misc
 *.bak
 *.tmp
+taskflow-key.pem
+ec2-instances.txt

@@ -24,7 +24,7 @@ sudo ./aws/install
 aws configure
 # Enter your AWS Access Key ID
 # Enter your AWS Secret Access Key
-# Enter default region (e.g., us-east-1)
+# Enter default region (e.g., eu-west-1)
 # Enter default output format (json)
 ```
 

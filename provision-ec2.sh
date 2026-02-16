@@ -9,10 +9,18 @@ echo "🚀 TaskFlow EC2 Instance Provisioning Script"
 echo "=============================================="
 
 # Configuration Variables
-AWS_REGION="${AWS_REGION:-us-east-1}"
-INSTANCE_TYPE_JENKINS="${INSTANCE_TYPE_JENKINS:-t3.medium}"
-INSTANCE_TYPE_APP="${INSTANCE_TYPE_APP:-t3.small}"
-AMI_ID="${AMI_ID:-ami-0c55b159cbfafe1f0}"  # Ubuntu 22.04 LTS - Update based on region
+AWS_REGION="${AWS_REGION:-eu-west-1}"
+INSTANCE_TYPE_JENKINS="${INSTANCE_TYPE_JENKINS:-t3.micro}"
+INSTANCE_TYPE_APP="${INSTANCE_TYPE_APP:-t3.micro}"
+# Get latest Amazon Linux 2 AMI dynamically
+echo "🔍 Finding latest Amazon Linux 2 AMI..."
+AMI_ID=$(aws ec2 describe-images \
+    --owners amazon \
+    --filters "Name=name,Values=amzn2-ami-hvm-*-x86_64-gp2" "Name=state,Values=available" \
+    --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
+    --output text \
+    --region "$AWS_REGION")
+echo "✅ Using AMI: $AMI_ID"
 KEY_NAME="${KEY_NAME:-taskflow-key}"
 SECURITY_GROUP_NAME="taskflow-sg"
 
@@ -101,75 +109,18 @@ else
     echo "✅ Key pair already exists"
 fi
 
-# User Data Script for Jenkins Server
-cat > jenkins-userdata.sh <<'EOF'
-#!/bin/bash
-set -e
-
-# Update system
-apt-get update
-apt-get upgrade -y
-
-# Install Java
-apt-get install -y openjdk-11-jdk
-
-# Install Docker
-apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-apt-get update
-apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
-# Add ubuntu user to docker group
-usermod -aG docker ubuntu
-
-# Install Jenkins
-wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -
-sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-apt-get update
-apt-get install -y jenkins
-
-# Add jenkins user to docker group
-usermod -aG docker jenkins
-
-# Start Jenkins
-systemctl start jenkins
-systemctl enable jenkins
-
-# Install additional tools
-apt-get install -y git curl wget unzip
-
-echo "Jenkins installation completed!"
-EOF
-
-# User Data Script for Application Server
-cat > app-userdata.sh <<'EOF'
-#!/bin/bash
-set -e
-
-# Update system
-apt-get update
-apt-get upgrade -y
-
-# Install Docker
-apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-apt-get update
-apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
-# Add ubuntu user to docker group
-usermod -aG docker ubuntu
-
-# Start Docker
-systemctl start docker
-systemctl enable docker
-
-# Install additional tools
-apt-get install -y git curl wget
-
-echo "Application server setup completed!"
-EOF
+# Check User Data Scripts Exist
+echo ""
+echo "📄 Checking User Data Scripts..."
+if [ ! -f "jenkins-userdata.sh" ]; then
+    echo "❌ Error: jenkins-userdata.sh not found"
+    exit 1
+fi
+if [ ! -f "app-userdata.sh" ]; then
+    echo "❌ Error: app-userdata.sh not found"
+    exit 1
+fi
+echo "✅ User data scripts found"
 
 # Launch Jenkins EC2 Instance
 echo ""
@@ -232,23 +183,24 @@ TaskFlow EC2 Instances
 
 Jenkins Server:
   Instance ID: $JENKINS_INSTANCE_ID
-  Public IP: $JENKINS_PUBLIC_IP
-  SSH: ssh -i ${KEY_NAME}.pem ubuntu@${JENKINS_PUBLIC_IP}
+  Public IP: $JENKINS_PUBLIC_Iec2-user@${JENKINS_PUBLIC_IP}
   Jenkins URL: http://${JENKINS_PUBLIC_IP}:8080
   Initial Admin Password: sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 Application Server:
   Instance ID: $APP_INSTANCE_ID
   Public IP: $APP_PUBLIC_IP
-  SSH: ssh -i ${KEY_NAME}.pem ubuntu@${APP_PUBLIC_IP}
+  SSH: ssh -i ${KEY_NAME}.pem ec2-user@${APP_PUBLIC_IP}
   Application URL: http://${APP_PUBLIC_IP}
 
 Security Group: $SG_ID
 Key Pair: ${KEY_NAME}.pem
 Region: $AWS_REGION
+AMI ID: $AMI_ID
 
 Deployment Commands:
-  1. SSH to Jenkins: ssh -i ${KEY_NAME}.pem ubuntu@${JENKINS_PUBLIC_IP}
+  1. SSH to Jenkins: ssh -i ${KEY_NAME}.pem ec2-user@${JENKINS_PUBLIC_IP}
+  2. SSH to App Server: ssh -i ${KEY_NAME}.pem ec2-userJENKINS_PUBLIC_IP}
   2. SSH to App Server: ssh -i ${KEY_NAME}.pem ubuntu@${APP_PUBLIC_IP}
   3. Deploy app: docker-compose -f docker-compose.prod.yml up -d
 EOL
@@ -266,13 +218,5 @@ echo ""
 echo "⚠️  Note: Wait 2-3 minutes for user data scripts to complete."
 echo "⚠️  Jenkins initial password: ssh to Jenkins server and run:"
 echo "    sudo cat /var/lib/jenkins/secrets/initialAdminPassword"
-echo ""
-echo "🧹 Cleanup files created:"
-echo "  - jenkins-userdata.sh"
-echo "  - app-userdata.sh"
-
-# Cleanup
-rm -f jenkins-userdata.sh app-userdata.sh
-
 echo ""
 echo "✅ Provisioning Complete!"

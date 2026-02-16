@@ -11,7 +11,7 @@ echo "=============================="
 # Configuration
 APP_SERVER="${APP_SERVER:-}"
 SSH_KEY="${SSH_KEY:-taskflow-key.pem}"
-SSH_USER="${SSH_USER:-ubuntu}"
+SSH_USER="${SSH_USER:-ec2-user}"
 DOCKER_USERNAME="abgyamfi"
 IMAGE_TAG="${IMAGE_TAG:-latest}"
 
