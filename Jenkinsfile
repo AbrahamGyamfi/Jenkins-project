@@ -2,14 +2,15 @@ pipeline {
     agent any
     
     environment {
-        // Docker Hub credentials
-        DOCKER_REGISTRY = 'docker.io'
-        DOCKER_CREDENTIALS_ID = 'dockerhub-credentials'
-        DOCKER_USERNAME = 'abgyamfi'
+        // AWS ECR Configuration
+        AWS_REGION = 'eu-west-1'
+        AWS_ACCOUNT_ID = '697863031884'
+        ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+        AWS_CREDENTIALS_ID = 'aws-credentials'
         
         // Docker images
-        BACKEND_IMAGE = "${DOCKER_USERNAME}/taskflow-backend"
-        FRONTEND_IMAGE = "${DOCKER_USERNAME}/taskflow-frontend"
+        BACKEND_IMAGE = "${ECR_REGISTRY}/taskflow-backend"
+        FRONTEND_IMAGE = "${ECR_REGISTRY}/taskflow-frontend"
         IMAGE_TAG = "${BUILD_NUMBER}"
         
         // EC2 Deployment Server
@@ -113,25 +114,35 @@ pipeline {
             }
         }
         
-        stage('Push to Docker Hub') {
+        stage('Push to ECR') {
             steps {
                 script {
-                    echo '📤 Pushing images to Docker Hub...'
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS_ID}") {
-                        // Push backend
+                    echo '📤 Pushing images to AWS ECR...'
+                    
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: "${AWS_CREDENTIALS_ID}"
+                    ]]) {
+                        // Login to ECR
+                        sh """
+                            aws ecr get-login-password --region ${AWS_REGION} | \
+                            docker login --username AWS --password-stdin ${ECR_REGISTRY}
+                        """
+                        
+                        // Push backend images
                         sh """
                             docker push ${BACKEND_IMAGE}:${IMAGE_TAG}
                             docker push ${BACKEND_IMAGE}:latest
                         """
                         
-                        // Push frontend
+                        // Push frontend images
                         sh """
                             docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
                             docker push ${FRONTEND_IMAGE}:latest
                         """
                     }
                     
-                    echo "✅ Images pushed successfully!"
+                    echo "✅ Images pushed successfully to ECR!"
                     echo "Backend: ${BACKEND_IMAGE}:${IMAGE_TAG}"
                     echo "Frontend: ${FRONTEND_IMAGE}:${IMAGE_TAG}"
                 }
@@ -162,6 +173,10 @@ pipeline {
                         sh """
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
                                 cd ~/taskflow
+                                
+                                # Login to ECR
+                                aws ecr get-login-password --region ${AWS_REGION} | \
+                                docker login --username AWS --password-stdin ${ECR_REGISTRY}
                                 
                                 # Pull latest images
                                 docker pull ${BACKEND_IMAGE}:${IMAGE_TAG}
