@@ -119,28 +119,23 @@ pipeline {
                 script {
                     echo '📤 Pushing images to AWS ECR...'
                     
-                    withCredentials([[
-                        $class: 'AmazonWebServicesCredentialsBinding',
-                        credentialsId: "${AWS_CREDENTIALS_ID}"
-                    ]]) {
-                        // Login to ECR
-                        sh """
-                            aws ecr get-login-password --region ${AWS_REGION} | \
-                            docker login --username AWS --password-stdin ${ECR_REGISTRY}
-                        """
-                        
-                        // Push backend images
-                        sh """
-                            docker push ${BACKEND_IMAGE}:${IMAGE_TAG}
-                            docker push ${BACKEND_IMAGE}:latest
-                        """
-                        
-                        // Push frontend images
-                        sh """
-                            docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
-                            docker push ${FRONTEND_IMAGE}:latest
-                        """
-                    }
+                    // Login to ECR using AWS CLI (credentials already configured)
+                    sh """
+                        aws ecr get-login-password --region ${AWS_REGION} | \
+                        docker login --username AWS --password-stdin ${ECR_REGISTRY}
+                    """
+                    
+                    // Push backend images
+                    sh """
+                        docker push ${BACKEND_IMAGE}:${IMAGE_TAG}
+                        docker push ${BACKEND_IMAGE}:latest
+                    """
+                    
+                    // Push frontend images
+                    sh """
+                        docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
+                        docker push ${FRONTEND_IMAGE}:latest
+                    """
                     
                     echo "✅ Images pushed successfully to ECR!"
                     echo "Backend: ${BACKEND_IMAGE}:${IMAGE_TAG}"
@@ -154,55 +149,54 @@ pipeline {
                 script {
                     echo '🚀 Deploying to EC2...'
                     
-                    sshagent(credentials: ["${EC2_CREDENTIALS_ID}"]) {
-                        // Create deployment directory
-                        sh """
-                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
-                                mkdir -p ~/taskflow
-                            '
-                        """
-                        
-                        // Copy docker-compose file
-                        sh """
-                            scp -o StrictHostKeyChecking=no \
-                                docker-compose.prod.yml \
-                                ${EC2_USER}@${EC2_HOST}:~/taskflow/docker-compose.yml
-                        """
-                        
-                        // Deploy application
-                        sh """
-                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
-                                cd ~/taskflow
-                                
-                                # Login to ECR
-                                aws ecr get-login-password --region ${AWS_REGION} | \
-                                docker login --username AWS --password-stdin ${ECR_REGISTRY}
-                                
-                                # Pull latest images
-                                docker pull ${BACKEND_IMAGE}:${IMAGE_TAG}
-                                docker pull ${FRONTEND_IMAGE}:${IMAGE_TAG}
-                                
-                                # Stop existing containers
-                                docker-compose down || true
-                                
-                                # Start new containers
-                                IMAGE_TAG=${IMAGE_TAG} docker-compose up -d
-                                
-                                # Wait for services to be healthy
-                                sleep 10
-                                
-                                # Check container status
-                                docker-compose ps
-                                
-                                # Verify application is running
-                                curl -f http://localhost/health || exit 1
-                                
-                                echo "✅ Deployment successful!"
-                            '
-                        """
-                    }
+                    // Create deployment directory
+                    sh """
+                        ssh -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                            mkdir -p ~/taskflow
+                        '
+                    """
+                    
+                    // Copy docker-compose file
+                    sh """
+                        scp -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no \
+                            docker-compose.prod.yml \
+                            ${EC2_USER}@${EC2_HOST}:~/taskflow/docker-compose.yml
+                    """
+                    
+                    // Deploy application
+                    sh """
+                        ssh -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                            cd ~/taskflow
+                            
+                            # Login to ECR
+                            aws ecr get-login-password --region ${AWS_REGION} | \
+                            docker login --username AWS --password-stdin ${ECR_REGISTRY}
+                            
+                            # Pull latest images
+                            docker pull ${BACKEND_IMAGE}:${IMAGE_TAG}
+                            docker pull ${FRONTEND_IMAGE}:${IMAGE_TAG}
+                            
+                            # Stop existing containers
+                            docker-compose down || true
+                            
+                            # Start new containers
+                            IMAGE_TAG=${IMAGE_TAG} docker-compose up -d
+                            
+                            # Wait for services to be healthy
+                            sleep 10
+                            
+                            # Check container status
+                            docker-compose ps
+                            
+                            # Verify application is running
+                            curl -f http://localhost/health || exit 1
+                            
+                            echo "✅ Deployment successful!"
+                        '
+                    """
                 }
             }
+        }
         }
         
         stage('Health Check') {
