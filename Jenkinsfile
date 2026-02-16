@@ -14,7 +14,7 @@ pipeline {
         
         // EC2 Deployment Server
         EC2_CREDENTIALS_ID = 'ec2-ssh-key'
-        EC2_HOST = '' // Will be set dynamically or from Jenkins credentials
+        EC2_HOST = '54.170.165.207'
         EC2_USER = 'ec2-user'
         
         // Application

@@ -10,7 +10,7 @@ echo "=============================================="
 
 # Configuration Variables
 AWS_REGION="${AWS_REGION:-eu-west-1}"
-INSTANCE_TYPE_JENKINS="${INSTANCE_TYPE_JENKINS:-t3.micro}"
+INSTANCE_TYPE_JENKINS="${INSTANCE_TYPE_JENKINS:-t3.medium}"
 INSTANCE_TYPE_APP="${INSTANCE_TYPE_APP:-t3.micro}"
 # Get latest Amazon Linux 2 AMI dynamically
 echo "🔍 Finding latest Amazon Linux 2 AMI..."
