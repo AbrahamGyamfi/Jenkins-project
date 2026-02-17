@@ -5,17 +5,17 @@
 
 ---
 
-## 📊 Sprint 2 Review
+##  Sprint 2 Review
 
 ### Planned User Stories
 | ID | User Story | Story Points | Status |
 |----|------------|--------------|---------|
-| US-004 | Delete Task | 2 | ✅ Completed |
-| US-005 | Edit Task | 5 | ✅ Completed |
-| US-006 | Filter Tasks by Status | 3 | ✅ Completed |
+| US-004 | Delete Task | 2 |  Completed |
+| US-005 | Edit Task | 5 |  Completed |
+| US-006 | Filter Tasks by Status | 3 |  Completed |
 | **Process Improvements** | | | |
-| - | Add frontend component tests | 3 | ✅ Completed |
-| - | Enhanced logging and monitoring | 2 | ✅ Completed |
+| - | Add frontend component tests | 3 |  Completed |
+| - | Enhanced logging and monitoring | 2 |  Completed |
 | **Total** | | **15** | **15 completed** |
 
 ### Velocity Comparison
@@ -29,11 +29,11 @@
 
 #### 1. Delete Task (US-004)
 **Acceptance Criteria Met:**
-- ✅ User can delete any task from the list
-- ✅ Confirmation dialog appears before deletion
-- ✅ Task is removed from list immediately after confirmation
-- ✅ Deletion cannot be undone (v1 design decision)
-- ✅ User receives feedback that task was deleted
+-  User can delete any task from the list
+-  Confirmation dialog appears before deletion
+-  Task is removed from list immediately after confirmation
+-  Deletion cannot be undone (v1 design decision)
+-  User receives feedback that task was deleted
 
 **Implementation Highlights:**
 - Delete button on each task card
@@ -51,7 +51,7 @@
 5. Task counter updates automatically
 
 **Screenshot Description:**
-- Delete icon (🗑️) button on each task
+- Delete icon button on each task
 - Browser native confirmation dialog
 - Smooth fade-out animation on deletion
 - Green success notification
@@ -60,11 +60,11 @@
 
 #### 2. Edit Task (US-005)
 **Acceptance Criteria Met:**
-- ✅ User can edit task title and description
-- ✅ Edit form is pre-populated with current values
-- ✅ Changes are saved immediately
-- ✅ User can cancel editing without saving
-- ✅ Form validation same as create task
+-  User can edit task title and description
+-  Edit form is pre-populated with current values
+-  Changes are saved immediately
+-  User can cancel editing without saving
+-  Form validation same as create task
 
 **Implementation Highlights:**
 - Inline editing with toggle mode
@@ -76,7 +76,7 @@
 - API endpoint: `PUT /api/tasks/:id`
 
 **User Flow:**
-1. User clicks edit button (✏️) on task
+1. User clicks edit button on task
 2. Task transforms into edit mode
 3. Fields show current values
 4. User modifies title/description
@@ -94,11 +94,11 @@
 
 #### 3. Filter Tasks by Status (US-006)
 **Acceptance Criteria Met:**
-- ✅ Filter options: All, Active, Completed
-- ✅ Filter persists during session
-- ✅ Task count shows number of tasks in each category
-- ✅ Filter updates instantly when tasks change status
-- ✅ Default filter is "All"
+-  Filter options: All, Active, Completed
+-  Filter persists during session
+-  Task count shows number of tasks in each category
+-  Filter updates instantly when tasks change status
+-  Default filter is "All"
 
 **Implementation Highlights:**
 - Three filter buttons above task list
@@ -126,7 +126,7 @@
 ### Process Improvements Implemented
 
 #### 1. Frontend Component Tests
-**Status**: ✅ Completed (Sprint 1 Action Item)
+**Status**:  Completed (Sprint 1 Action Item)
 
 **What Was Added:**
 - React Testing Library setup
@@ -157,7 +157,7 @@ Average           |   90.6  |   84.3   |   92.3  |   91.5  |
 ---
 
 #### 2. Enhanced Logging and Monitoring
-**Status**: ✅ Completed (Sprint 1 Action Item)
+**Status**:  Completed (Sprint 1 Action Item)
 
 **What Was Added:**
 - Timestamp logging on all API requests
@@ -194,7 +194,7 @@ Average           |   90.6  |   84.3   |   92.3  |   91.5  |
 ---
 
 #### 3. Improved Error Handling
-**Status**: ✅ Completed (Sprint 1 Action Item)
+**Status**:  Completed (Sprint 1 Action Item)
 
 **What Was Added:**
 - User-friendly error messages
@@ -245,21 +245,20 @@ Average           |   90.6  |   84.3   |   92.3  |   91.5  |
 
 All completed user stories meet the DoD:
 
-✅ **Code Complete**: All code written, reviewed, and merged to main  
-✅ **Tests Passing**: All tests pass with >80% coverage (both frontend and backend)  
-✅ **CI Pipeline Green**: All automated checks passing  
-✅ **Functional**: Features work per acceptance criteria  
-✅ **Code Quality**: Follows ESLint standards  
-✅ **Documentation**: README and sprint docs updated  
-✅ **Peer Reviewed**: Code reviewed (simulated)  
-✅ **No Known Bugs**: No critical or high-priority bugs  
+ **Code Complete**: All code written, reviewed, and merged to main  
+ **Tests Passing**: All tests pass with >80% coverage (both frontend and backend)  
+ **CI Pipeline Green**: All automated checks passing  
+ **Functional**: Features work per acceptance criteria  
+ **Code Quality**: Follows ESLint standards  
+ **Documentation**: README and sprint docs updated  
+ **Peer Reviewed**: Code reviewed (simulated)  
+ **No Known Bugs**: No critical or high-priority bugs  
 
 ---
 
-## 🔄 Sprint 2 Retrospective
+##  Sprint 2 Retrospective
 
-### What Went Well ✅
-
+### What Went Well 
 1. **Applied Sprint 1 Feedback Successfully**
    - All action items from Sprint 1 retrospective completed
    - Frontend testing gap closed (90% coverage)
@@ -291,7 +290,7 @@ All completed user stories meet the DoD:
 
 ---
 
-### What Could Be Improved 🔧
+### What Could Be Improved 
 
 1. **Data Persistence**
    - **Issue**: Still using in-memory storage
@@ -320,7 +319,7 @@ All completed user stories meet the DoD:
 
 ---
 
-### Key Learnings 📚
+### Key Learnings 
 
 #### Agile Process Learnings
 
@@ -427,33 +426,33 @@ All completed user stories meet the DoD:
 ### Final Product Assessment
 
 #### Features Delivered
-- ✅ Create tasks
-- ✅ View tasks
-- ✅ Complete/uncomplete tasks
-- ✅ Edit tasks
-- ✅ Delete tasks
-- ✅ Filter tasks by status
-- ❌ Task priorities (deferred to future)
+-  Create tasks
+-  View tasks
+-  Complete/uncomplete tasks
+-  Edit tasks
+-  Delete tasks
+-  Filter tasks by status
+-  Task priorities (deferred to future)
 
 #### Quality Indicators
-- ✅ >90% test coverage overall
-- ✅ All tests passing
-- ✅ CI/CD pipeline operational
-- ✅ Zero known critical bugs
-- ✅ Clean, documented code
-- ✅ Responsive design
+-  >90% test coverage overall
+-  All tests passing
+-  CI/CD pipeline operational
+-  Zero known critical bugs
+-  Clean, documented code
+-  Responsive design
 
 #### Documentation Completeness
-- ✅ Sprint 0 Planning
-- ✅ Sprint 1 Review & Retrospective
-- ✅ Sprint 2 Review & Retrospective
-- ✅ Comprehensive README
-- ✅ Code comments
-- ✅ Git commit history
+-  Sprint 0 Planning
+-  Sprint 1 Review & Retrospective
+-  Sprint 2 Review & Retrospective
+-  Comprehensive README
+-  Code comments
+-  Git commit history
 
 ---
 
-## 🎯 Recommendations for Future Sprints
+##  Recommendations for Future Sprints
 
 If this project were to continue beyond Sprint 2:
 
@@ -500,39 +499,39 @@ If this project were to continue beyond Sprint 2:
 
 ---
 
-## 🏆 Project Success Criteria Met
+##  Project Success Criteria Met
 
-### Agile Principles ✅
-- ✅ Product vision defined
-- ✅ Product backlog created and maintained
-- ✅ User stories with acceptance criteria
-- ✅ Sprint planning conducted
-- ✅ Iterative delivery (2 sprints)
-- ✅ Sprint reviews completed
-- ✅ Retrospectives conducted
-- ✅ Process improvements implemented
+### Agile Principles 
+-  Product vision defined
+-  Product backlog created and maintained
+-  User stories with acceptance criteria
+-  Sprint planning conducted
+-  Iterative delivery (2 sprints)
+-  Sprint reviews completed
+-  Retrospectives conducted
+-  Process improvements implemented
 
-### DevOps Practices ✅
-- ✅ Version control with Git
-- ✅ Meaningful commit history
-- ✅ CI/CD pipeline operational
-- ✅ Automated testing (>90% coverage)
-- ✅ Code quality checks
-- ✅ Monitoring and logging implemented
-- ✅ Health check endpoint
+### DevOps Practices 
+-  Version control with Git
+-  Meaningful commit history
+-  CI/CD pipeline operational
+-  Automated testing (>90% coverage)
+-  Code quality checks
+-  Monitoring and logging implemented
+-  Health check endpoint
 
-### Deliverables ✅
-- ✅ Working prototype
-- ✅ Code repository
-- ✅ CI/CD configuration
-- ✅ Test suite with evidence
-- ✅ Sprint documentation
-- ✅ Retrospectives
-- ✅ Comprehensive README
+### Deliverables 
+-  Working prototype
+-  Code repository
+-  CI/CD configuration
+-  Test suite with evidence
+-  Sprint documentation
+-  Retrospectives
+-  Comprehensive README
 
 ---
 
-## 🎓 Overall Assessment
+##  Overall Assessment
 
 This project successfully demonstrated the application of Agile principles and DevOps practices in a real-world development scenario. Through two well-executed sprints, a functional task management application was built from scratch with:
 
@@ -544,42 +543,42 @@ This project successfully demonstrated the application of Agile principles and D
 
 The project shows growth from Sprint 1 to Sprint 2 in velocity, test coverage, and code quality. The retrospectives led to actionable improvements that were implemented, demonstrating the value of the Agile feedback loop.
 
-**Overall Project Rating**: ⭐⭐⭐⭐⭐ (5/5)
+**Overall Project Rating**: (5/5)
 
 ---
 
-## 📸 Final Deliverables Checklist
+##  Final Deliverables Checklist
 
 ### Code & Configuration
-- ✅ Git repository with commit history
-- ✅ Backend server code
-- ✅ Frontend React application
-- ✅ Test suite (backend + frontend)
-- ✅ CI/CD pipeline configuration
-- ✅ Configuration files (Jest, ESLint, etc.)
+-  Git repository with commit history
+-  Backend server code
+-  Frontend React application
+-  Test suite (backend + frontend)
+-  CI/CD pipeline configuration
+-  Configuration files (Jest, ESLint, etc.)
 
 ### Documentation
-- ✅ SPRINT_0_PLANNING.md
-- ✅ SPRINT_1_REVIEW.md
-- ✅ SPRINT_2_REVIEW.md (this file)
-- ✅ README.md
-- ✅ Code comments
+-  SPRINT_0_PLANNING.md
+-  SPRINT_1_REVIEW.md
+-  SPRINT_2_REVIEW.md (this file)
+-  README.md
+-  Code comments
 
 ### Evidence
-- ✅ Test coverage reports
-- ✅ CI/CD pipeline runs
-- ✅ Git commit history
-- ✅ Working application (local)
+-  Test coverage reports
+-  CI/CD pipeline runs
+-  Git commit history
+-  Working application (local)
 
 ---
 
 **Sprint 2 Completed**: February 27, 2026  
-**Project Status**: ✅ Successfully Completed  
-**Ready for Assessment**: ✅ Yes
+**Project Status**:  Successfully Completed  
+**Ready for Assessment**:  Yes
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 This project was completed as part of Agile Development coursework, demonstrating practical application of:
 - Agile/Scrum methodology
