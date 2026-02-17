@@ -5,14 +5,14 @@
 
 ---
 
-## 📊 Sprint 1 Review
+##  Sprint 1 Review
 
 ### Planned User Stories
 | ID | User Story | Story Points | Status |
 |----|------------|--------------|---------|
-| US-001 | Create Task | 5 | ✅ Completed |
-| US-002 | View Task List | 3 | ✅ Completed |
-| US-003 | Mark Task as Complete | 3 | ✅ Completed |
+| US-001 | Create Task | 5 |Completed |
+| US-002 | View Task List | 3 | Completed |
+| US-003 | Mark Task as Complete | 3 | Completed |
 | **Total** | | **11** | **11 completed** |
 
 ### Velocity
@@ -24,11 +24,11 @@
 
 #### 1. Create Task (US-001)
 **Acceptance Criteria Met:**
-- ✅ User can enter task title (required, max 100 characters)
-- ✅ User can enter task description (optional, max 500 characters)
-- ✅ Task is saved and appears in task list immediately
-- ✅ User receives confirmation that task was created
-- ✅ Form validation prevents empty titles
+-  User can enter task title (required, max 100 characters)
+-  User can enter task description (optional, max 500 characters)
+-  Task is saved and appears in task list immediately
+-  User receives confirmation that task was created
+-  Form validation prevents empty titles
 
 **Implementation Highlights:**
 - React form component with real-time validation
@@ -47,11 +47,11 @@
 
 #### 2. View Task List (US-002)
 **Acceptance Criteria Met:**
-- ✅ All tasks are displayed in a list format
-- ✅ Each task shows title, description, and status
-- ✅ Tasks are sorted by creation date (newest first)
-- ✅ Empty state message shown when no tasks exist
-- ✅ List updates in real-time when tasks are added/removed
+-  All tasks are displayed in a list format
+-  Each task shows title, description, and status
+-  Tasks are sorted by creation date (newest first)
+-  Empty state message shown when no tasks exist
+-  List updates in real-time when tasks are added/removed
 
 **Implementation Highlights:**
 - Responsive task list component
@@ -70,11 +70,11 @@
 
 #### 3. Mark Task as Complete (US-003)
 **Acceptance Criteria Met:**
-- ✅ User can toggle task status with a single click
-- ✅ Completed tasks have visual distinction (strikethrough, opacity change)
-- ✅ Status changes are persisted immediately
-- ✅ UI updates instantly without page reload
-- ✅ User can toggle status back to incomplete
+-  User can toggle task status with a single click
+-  Completed tasks have visual distinction (strikethrough, opacity change)
+-  Status changes are persisted immediately
+-  UI updates instantly without page reload
+-  User can toggle status back to incomplete
 
 **Implementation Highlights:**
 - Custom checkbox with smooth animations
@@ -94,7 +94,7 @@
 ### Technical Achievements
 
 #### 1. CI/CD Pipeline Setup
-**Status**: ✅ Completed
+**Status**:  Completed
 
 **Implementation:**
 - Jenkins pipeline configured
@@ -117,7 +117,7 @@
 ---
 
 #### 2. Testing Infrastructure
-**Status**: ✅ Completed
+**Status**:  Completed
 
 **Test Coverage:**
 ```
@@ -135,14 +135,14 @@ Total          |   92.5  |   88.3   |   95.0  |   93.2  |
 - Health check endpoint tests
 
 **Test Results:**
-- ✅ All tests passing
-- ✅ Coverage exceeds 80% threshold
-- ✅ Tests run in < 5 seconds
+-  All tests passing
+-  Coverage exceeds 80% threshold
+-  Tests run in < 5 seconds
 
 ---
 
 #### 3. Version Control
-**Status**: ✅ Completed
+**Status**:  Completed
 
 **Commit History:**
 - 15+ meaningful commits throughout Sprint 1
@@ -169,20 +169,20 @@ docs: Add Sprint 0 planning document
 
 All completed user stories meet the DoD:
 
-✅ **Code Complete**: All code written, reviewed, and merged to main  
-✅ **Tests Passing**: All tests pass with >80% coverage  
-✅ **CI Pipeline Green**: All automated checks passing  
-✅ **Functional**: Features work per acceptance criteria  
-✅ **Code Quality**: Follows ESLint standards  
-✅ **Documentation**: README and code comments updated  
-✅ **Peer Reviewed**: Code reviewed (simulated for individual work)  
-✅ **No Known Bugs**: No critical or high-priority bugs  
+ **Code Complete**: All code written, reviewed, and merged to main  
+ **Tests Passing**: All tests pass with >80% coverage  
+ **CI Pipeline Green**: All automated checks passing  
+ **Functional**: Features work per acceptance criteria  
+ **Code Quality**: Follows ESLint standards  
+ **Documentation**: README and code comments updated  
+ **Peer Reviewed**: Code reviewed (simulated for individual work)  
+ **No Known Bugs**: No critical or high-priority bugs  
 
 ---
 
-## 🔄 Sprint 1 Retrospective
+##  Sprint 1 Retrospective
 
-### What Went Well ✅
+### What Went Well 
 
 1. **Exceeded Velocity Target**
    - Completed all 11 planned story points
@@ -211,7 +211,7 @@ All completed user stories meet the DoD:
 
 ---
 
-### What Could Be Improved 🔧
+### What Could Be Improved 
 
 1. **Frontend Testing Gap**
    - **Issue**: No React component tests yet
@@ -240,16 +240,15 @@ All completed user stories meet the DoD:
 
 ---
 
-### Action Items for Sprint 2 🎯
-
+### Action Items for Sprint 2
 | Priority | Action Item | Owner | Status |
 |----------|-------------|-------|--------|
-| HIGH | Add React component tests with React Testing Library | Dev | 📋 Backlog |
-| HIGH | Implement US-004 (Delete Task) and US-005 (Edit Task) | Dev | 📋 Backlog |
-| MEDIUM | Enhance error messages and add error boundaries | Dev | 📋 Backlog |
-| MEDIUM | Add more comprehensive logging with timestamps | Dev | 📋 Backlog |
-| LOW | Improve documentation with more code examples | Dev | 📋 Backlog |
-| LOW | Consider data persistence options | Dev | 📋 Future |
+| HIGH | Add React component tests with React Testing Library | Dev |  Backlog |
+| HIGH | Implement US-004 (Delete Task) and US-005 (Edit Task) | Dev |  Backlog |
+| MEDIUM | Enhance error messages and add error boundaries | Dev |  Backlog |
+| MEDIUM | Add more comprehensive logging with timestamps | Dev |  Backlog |
+| LOW | Improve documentation with more code examples | Dev |  Backlog |
+| LOW | Consider data persistence options | Dev |  Future |
 
 ---
 
@@ -306,48 +305,48 @@ All completed user stories meet the DoD:
 
 ### Sprint 1 Success Criteria
 
-✅ **All planned user stories completed**  
-✅ **CI/CD pipeline operational**  
-✅ **Test coverage >80% (backend)**  
-✅ **Working prototype deployed locally**  
-✅ **Sprint review document created**  
-✅ **Retrospective conducted**  
-✅ **Action items identified for Sprint 2**  
+ **All planned user stories completed**  
+ **CI/CD pipeline operational**  
+ **Test coverage >80% (backend)**  
+ **Working prototype deployed locally**  
+ **Sprint review document created**  
+ **Retrospective conducted**  
+ **Action items identified for Sprint 2**  
 
 ---
 
-## 📸 Sprint 1 Deliverables
+## Sprint 1 Deliverables
 
 ### Code Repository
-- ✅ Git repository with meaningful commit history
-- ✅ Main branch with stable, tested code
-- ✅ Clean project structure
+-  Git repository with meaningful commit history
+-  Main branch with stable, tested code
+-  Clean project structure
 
 ### CI/CD Pipeline
-- ✅ Jenkinsfile for pipeline
-- ✅ Pipeline runs on all commits
-- ✅ All stages passing
+-  Jenkinsfile for pipeline
+- Pipeline runs on all commits
+- All stages passing
 
 ### Testing Evidence
-- ✅ Jest test suite with 20+ tests
-- ✅ Coverage report showing >80%
-- ✅ All tests passing
+-  Jest test suite with 20+ tests
+-  Coverage report showing >80%
+-  All tests passing
 
 ### Documentation
-- ✅ Sprint 0 Planning document
-- ✅ Sprint 1 Review & Retrospective (this document)
-- ✅ README with setup instructions
-- ✅ Code comments and structure
+- Sprint 0 Planning document
+- Sprint 1 Review & Retrospective (this document)
+- README with setup instructions
+- Code comments and structure
 
 ---
 
-## 🎉 Sprint 1 Summary
+##  Sprint 1 Summary
 
 Sprint 1 was highly successful, delivering all planned features with high quality. The foundation is solid with a working CI/CD pipeline, comprehensive tests, and clean code structure. The main improvements for Sprint 2 focus on adding frontend tests, enhancing error handling, and improving monitoring capabilities.
 
-**Sprint Rating**: ⭐⭐⭐⭐⭐ (5/5)
+**Sprint Rating**: (5/5)
 
-**Ready for Sprint 2**: ✅ Yes
+**Ready for Sprint 2**:  Yes
 
 ---
 
