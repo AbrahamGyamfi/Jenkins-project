@@ -1,0 +1,1146 @@
+Started by user Abraham Gyamfi
+Obtained Jenkinsfile from git https://github.com/AbrahamGyamfi/Jenkins-project.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/TaskFlow-Pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/TaskFlow-Pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/AbrahamGyamfi/Jenkins-project.git # timeout=10
+Fetching upstream changes from https://github.com/AbrahamGyamfi/Jenkins-project.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/AbrahamGyamfi/Jenkins-project.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision d326b7f3b98f75fc38df97a9ad283ac1fe5fe67c (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f d326b7f3b98f75fc38df97a9ad283ac1fe5fe67c # timeout=10
+Commit message: "Fix frontend tests - use getByRole and waitFor for async operations"
+ > git rev-list --no-walk fc64ad9bc9e7b5b1db2d4a22b98ad16471acc2a3 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timestamps
+[Pipeline] {
+[Pipeline] timeout
+[2026-02-16T16:07:18.638Z] Timeout set to expire in 30 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:07:18.739Z] ���� Checking out code...
+[Pipeline] checkout
+[2026-02-16T16:07:18.754Z] Selected Git installation does not exist. Using Default
+[2026-02-16T16:07:18.754Z] The recommended git tool is: NONE
+[2026-02-16T16:07:18.754Z] No credentials specified
+[2026-02-16T16:07:18.754Z]  > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/TaskFlow-Pipeline/.git # timeout=10
+[2026-02-16T16:07:18.759Z] Fetching changes from the remote Git repository
+[2026-02-16T16:07:18.760Z]  > git config remote.origin.url https://github.com/AbrahamGyamfi/Jenkins-project.git # timeout=10
+[2026-02-16T16:07:18.764Z] Fetching upstream changes from https://github.com/AbrahamGyamfi/Jenkins-project.git
+[2026-02-16T16:07:18.764Z]  > git --version # timeout=10
+[2026-02-16T16:07:18.768Z]  > git --version # 'git version 2.47.3'
+[2026-02-16T16:07:18.768Z]  > git fetch --tags --force --progress -- https://github.com/AbrahamGyamfi/Jenkins-project.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-02-16T16:07:19.067Z]  > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+[2026-02-16T16:07:19.071Z] Checking out Revision d326b7f3b98f75fc38df97a9ad283ac1fe5fe67c (refs/remotes/origin/main)
+[2026-02-16T16:07:19.071Z]  > git config core.sparsecheckout # timeout=10
+[2026-02-16T16:07:19.074Z]  > git checkout -f d326b7f3b98f75fc38df97a9ad283ac1fe5fe67c # timeout=10
+[2026-02-16T16:07:19.086Z] Commit message: "Fix frontend tests - use getByRole and waitFor for async operations"
+[Pipeline] sh
+[2026-02-16T16:07:19.357Z] + git log -1 --pretty=%B
+[Pipeline] sh
+[2026-02-16T16:07:19.651Z] + git log -1 --pretty=%an
+[Pipeline] echo
+[2026-02-16T16:07:19.679Z] Commit: Fix frontend tests - use getByRole and waitFor for async operations
+[Pipeline] echo
+[2026-02-16T16:07:19.691Z] Author: Abraham Gyamfi
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Images)
+[Pipeline] parallel
+[Pipeline] { (Branch: Build Backend)
+[Pipeline] { (Branch: Build Frontend)
+[Pipeline] stage
+[Pipeline] { (Build Backend)
+[Pipeline] stage
+[Pipeline] { (Build Frontend)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:07:19.939Z] ���� Building backend Docker image...
+[Pipeline] dir
+[2026-02-16T16:07:19.950Z] Running in /var/lib/jenkins/workspace/TaskFlow-Pipeline/backend
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:07:19.965Z] ���� Building frontend Docker image...
+[Pipeline] dir
+[2026-02-16T16:07:19.976Z] Running in /var/lib/jenkins/workspace/TaskFlow-Pipeline/frontend
+[Pipeline] {
+[Pipeline] sh
+[Pipeline] sh
+[2026-02-16T16:07:20.265Z] ++ date -u +%Y-%m-%dT%H:%M:%SZ
+[2026-02-16T16:07:20.265Z] + docker build --build-arg BUILD_DATE=2026-02-16T16:07:20Z --build-arg VCS_REF=d326b7f3b98f75fc38df97a9ad283ac1fe5fe67c --build-arg BUILD_NUMBER=19 -t 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19 -t 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:latest .
+[2026-02-16T16:07:20.305Z] ++ date -u +%Y-%m-%dT%H:%M:%SZ
+[2026-02-16T16:07:20.305Z] + docker build --build-arg BUILD_DATE=2026-02-16T16:07:20Z --build-arg VCS_REF=d326b7f3b98f75fc38df97a9ad283ac1fe5fe67c --build-arg BUILD_NUMBER=19 -t 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19 -t 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:latest .
+[2026-02-16T16:07:20.555Z] #0 building with "default" instance using docker driver
+[2026-02-16T16:07:20.555Z] 
+[2026-02-16T16:07:20.555Z] #1 [internal] load build definition from Dockerfile
+[2026-02-16T16:07:20.555Z] #1 transferring dockerfile: 1.16kB done
+[2026-02-16T16:07:20.555Z] #1 DONE 0.0s
+[2026-02-16T16:07:20.555Z] 
+[2026-02-16T16:07:20.555Z] #2 [internal] load metadata for docker.io/library/node:18-alpine
+[2026-02-16T16:07:20.555Z] #2 DONE 0.0s
+[2026-02-16T16:07:20.555Z] 
+[2026-02-16T16:07:20.555Z] #3 [internal] load metadata for docker.io/library/nginx:alpine
+[2026-02-16T16:07:20.816Z] #0 building with "default" instance using docker driver
+[2026-02-16T16:07:20.816Z] 
+[2026-02-16T16:07:20.816Z] #1 [internal] load build definition from Dockerfile
+[2026-02-16T16:07:20.816Z] #1 transferring dockerfile: 1.19kB done
+[2026-02-16T16:07:20.816Z] #1 DONE 0.0s
+[2026-02-16T16:07:20.816Z] 
+[2026-02-16T16:07:20.816Z] #2 [internal] load metadata for docker.io/library/node:18-alpine
+[2026-02-16T16:07:20.816Z] #2 DONE 0.0s
+[2026-02-16T16:07:20.816Z] 
+[2026-02-16T16:07:20.816Z] #3 [internal] load .dockerignore
+[2026-02-16T16:07:20.816Z] #3 transferring context: 274B done
+[2026-02-16T16:07:20.816Z] #3 DONE 0.0s
+[2026-02-16T16:07:20.816Z] 
+[2026-02-16T16:07:20.816Z] #4 [1/7] FROM docker.io/library/node:18-alpine
+[2026-02-16T16:07:20.816Z] #4 DONE 0.0s
+[2026-02-16T16:07:20.816Z] 
+[2026-02-16T16:07:20.816Z] #5 [2/7] WORKDIR /app
+[2026-02-16T16:07:20.816Z] #5 CACHED
+[2026-02-16T16:07:20.816Z] 
+[2026-02-16T16:07:20.816Z] #6 [internal] load build context
+[2026-02-16T16:07:20.816Z] #6 transferring context: 212.62kB done
+[2026-02-16T16:07:20.816Z] #6 DONE 0.0s
+[2026-02-16T16:07:20.816Z] 
+[2026-02-16T16:07:20.816Z] #7 [3/7] RUN apk add --no-cache wget
+[2026-02-16T16:07:20.816Z] #7 0.249 fetch https://dl-cdn.alpinelinux.org/alpine/v3.21/main/x86_64/APKINDEX.tar.gz
+[2026-02-16T16:07:21.066Z] #7 0.322 fetch https://dl-cdn.alpinelinux.org/alpine/v3.21/community/x86_64/APKINDEX.tar.gz
+[2026-02-16T16:07:21.106Z] #3 DONE 0.4s
+[2026-02-16T16:07:21.106Z] 
+[2026-02-16T16:07:21.106Z] #4 [1/7] FROM docker.io/library/node:18-alpine
+[2026-02-16T16:07:21.106Z] #4 DONE 0.0s
+[2026-02-16T16:07:21.106Z] 
+[2026-02-16T16:07:21.106Z] #5 [2/7] WORKDIR /app
+[2026-02-16T16:07:21.106Z] #5 CACHED
+[2026-02-16T16:07:21.106Z] 
+[2026-02-16T16:07:21.106Z] #6 [internal] load .dockerignore
+[2026-02-16T16:07:21.106Z] #6 transferring context: 369B done
+[2026-02-16T16:07:21.106Z] #6 DONE 0.0s
+[2026-02-16T16:07:21.106Z] 
+[2026-02-16T16:07:21.106Z] #7 [stage-1 1/3] FROM docker.io/library/nginx:alpine@sha256:1d13701a5f9f3fb01aaa88cef2344d65b6b5bf6b7d9fa4cf0dca557a8d7702ba
+[2026-02-16T16:07:21.106Z] #7 DONE 0.0s
+[2026-02-16T16:07:21.106Z] 
+[2026-02-16T16:07:21.106Z] #8 [internal] load build context
+[2026-02-16T16:07:21.106Z] #8 transferring context: 644.98kB 0.0s done
+[2026-02-16T16:07:21.106Z] #8 DONE 0.0s
+[2026-02-16T16:07:21.106Z] 
+[2026-02-16T16:07:21.106Z] #9 [build 3/7] COPY package*.json ./
+[2026-02-16T16:07:21.106Z] #9 CACHED
+[2026-02-16T16:07:21.106Z] 
+[2026-02-16T16:07:21.106Z] #10 [build 4/7] RUN npm install
+[2026-02-16T16:07:21.317Z] #7 0.801 (1/4) Installing libunistring (1.2-r0)
+[2026-02-16T16:07:21.567Z] #7 0.820 (2/4) Installing libidn2 (2.3.7-r0)
+[2026-02-16T16:07:21.567Z] #7 0.826 (3/4) Installing pcre2 (10.43-r0)
+[2026-02-16T16:07:21.567Z] #7 0.838 (4/4) Installing wget (1.25.0-r0)
+[2026-02-16T16:07:21.567Z] #7 0.846 Executing busybox-1.37.0-r12.trigger
+[2026-02-16T16:07:21.567Z] #7 0.857 OK: 13 MiB in 21 packages
+[2026-02-16T16:07:21.567Z] #7 DONE 1.1s
+[2026-02-16T16:07:21.818Z] 
+[2026-02-16T16:07:21.818Z] #8 [4/7] COPY package*.json ./
+[2026-02-16T16:07:21.818Z] #8 DONE 0.1s
+[2026-02-16T16:07:21.818Z] 
+[2026-02-16T16:07:21.818Z] #9 [5/7] RUN npm install --production
+[2026-02-16T16:07:22.068Z] #9 0.483 npm warn config production Use `--omit=dev` instead.
+[2026-02-16T16:07:25.296Z] #9 3.361 
+[2026-02-16T16:07:25.296Z] #9 3.361 added 77 packages, and audited 78 packages in 3s
+[2026-02-16T16:07:25.296Z] #9 3.361 
+[2026-02-16T16:07:25.296Z] #9 3.361 17 packages are looking for funding
+[2026-02-16T16:07:25.296Z] #9 3.361   run `npm fund` for details
+[2026-02-16T16:07:25.296Z] #9 3.363 
+[2026-02-16T16:07:25.296Z] #9 3.363 found 0 vulnerabilities
+[2026-02-16T16:07:25.296Z] #9 DONE 3.6s
+[2026-02-16T16:07:25.546Z] 
+[2026-02-16T16:07:25.546Z] #10 [6/7] COPY server.js ./
+[2026-02-16T16:07:25.546Z] #10 DONE 0.1s
+[2026-02-16T16:07:25.546Z] 
+[2026-02-16T16:07:25.546Z] #11 [7/7] RUN addgroup -g 1001 -S nodejs &&     adduser -S nodejs -u 1001 &&     chown -R nodejs:nodejs /app
+[2026-02-16T16:07:27.408Z] #11 DONE 2.0s
+[2026-02-16T16:07:27.408Z] 
+[2026-02-16T16:07:27.408Z] #12 exporting to image
+[2026-02-16T16:07:27.408Z] #12 exporting layers
+[2026-02-16T16:07:27.658Z] #12 exporting layers 0.2s done
+[2026-02-16T16:07:27.658Z] #12 writing image sha256:3c81ff42244a92513064336f94b1dba43fc0939bfde73fd705638b134633176d done
+[2026-02-16T16:07:27.658Z] #12 naming to 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19 done
+[2026-02-16T16:07:27.658Z] #12 naming to 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:latest done
+[2026-02-16T16:07:27.658Z] #12 DONE 0.2s
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[2026-02-16T16:07:33.203Z] #10 11.53 npm warn deprecated whatwg-encoding@1.0.5: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+[2026-02-16T16:07:33.203Z] #10 11.59 npm warn deprecated w3c-hr-time@1.0.2: Use your platform's native performance.now() and performance.timeOrigin.
+[2026-02-16T16:07:33.203Z] #10 12.17 npm warn deprecated stable@0.1.8: Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility
+[2026-02-16T16:07:33.203Z] #10 12.27 npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+[2026-02-16T16:07:33.453Z] #10 12.39 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+[2026-02-16T16:07:33.704Z] #10 12.46 npm warn deprecated rollup-plugin-terser@7.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
+[2026-02-16T16:07:33.954Z] #10 12.89 npm warn deprecated q@1.5.1: You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+[2026-02-16T16:07:33.954Z] #10 12.89 npm warn deprecated
+[2026-02-16T16:07:33.954Z] #10 12.89 npm warn deprecated (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
+[2026-02-16T16:07:34.205Z] #10 12.96 npm warn deprecated workbox-cacheable-response@6.6.0: workbox-background-sync@6.6.0
+[2026-02-16T16:07:35.115Z] #10 14.16 npm warn deprecated workbox-google-analytics@6.6.0: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
+[2026-02-16T16:07:36.030Z] #10 14.79 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+[2026-02-16T16:07:36.280Z] #10 15.23 npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+[2026-02-16T16:07:37.191Z] #10 15.93 npm warn deprecated domexception@2.0.1: Use your platform's native DOMException instead
+[2026-02-16T16:07:38.102Z] #10 17.07 npm warn deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead
+[2026-02-16T16:07:39.013Z] #10 18.03 npm warn deprecated svgo@1.3.2: This SVGO version is no longer supported. Upgrade to v2.x.x.
+[2026-02-16T16:07:39.264Z] #10 18.04 npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+[2026-02-16T16:07:39.264Z] #10 18.04 npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+[2026-02-16T16:07:39.814Z] #10 18.71 npm warn deprecated @babel/plugin-proposal-private-methods@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
+[2026-02-16T16:07:39.814Z] #10 18.71 npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+[2026-02-16T16:07:39.814Z] #10 18.71 npm warn deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
+[2026-02-16T16:07:39.814Z] #10 18.71 npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+[2026-02-16T16:07:39.814Z] #10 18.71 npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+[2026-02-16T16:07:41.158Z] #10 20.04 npm warn deprecated @babel/plugin-proposal-private-property-in-object@7.21.11: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
+[2026-02-16T16:07:41.408Z] #10 20.30 npm warn deprecated source-map@0.8.0-beta.0: The work that was done in this beta branch won't be included in future versions
+[2026-02-16T16:07:44.636Z] #10 23.65 npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+[2026-02-16T16:07:49.831Z] #10 28.47 
+[2026-02-16T16:07:49.831Z] #10 28.47 added 1342 packages, and audited 1343 packages in 28s
+[2026-02-16T16:07:49.831Z] #10 28.47 
+[2026-02-16T16:07:49.831Z] #10 28.47 272 packages are looking for funding
+[2026-02-16T16:07:49.831Z] #10 28.47   run `npm fund` for details
+[2026-02-16T16:07:49.831Z] #10 28.48 
+[2026-02-16T16:07:49.831Z] #10 28.48 9 vulnerabilities (3 moderate, 6 high)
+[2026-02-16T16:07:49.831Z] #10 28.48 
+[2026-02-16T16:07:49.831Z] #10 28.48 To address all issues (including breaking changes), run:
+[2026-02-16T16:07:49.831Z] #10 28.48   npm audit fix --force
+[2026-02-16T16:07:49.831Z] #10 28.48 
+[2026-02-16T16:07:49.831Z] #10 28.48 Run `npm audit` for details.
+[2026-02-16T16:07:52.313Z] #10 DONE 30.9s
+[2026-02-16T16:07:52.313Z] 
+[2026-02-16T16:07:52.313Z] #11 [build 5/7] COPY public/ ./public/
+[2026-02-16T16:07:52.313Z] #11 DONE 0.1s
+[2026-02-16T16:07:52.313Z] 
+[2026-02-16T16:07:52.313Z] #12 [build 6/7] COPY src/ ./src/
+[2026-02-16T16:07:52.314Z] #12 DONE 0.1s
+[2026-02-16T16:07:52.314Z] 
+[2026-02-16T16:07:52.314Z] #13 [build 7/7] RUN npm run build
+[2026-02-16T16:07:52.564Z] #13 0.453 
+[2026-02-16T16:07:52.564Z] #13 0.453 > taskflow-frontend@1.0.0 build
+[2026-02-16T16:07:52.564Z] #13 0.453 > react-scripts build
+[2026-02-16T16:07:52.564Z] #13 0.453 
+[2026-02-16T16:07:53.907Z] #13 1.904 Creating an optimized production build...
+[2026-02-16T16:08:06.004Z] #13 12.86 Compiled successfully.
+[2026-02-16T16:08:06.004Z] #13 12.86 
+[2026-02-16T16:08:06.004Z] #13 12.86 File sizes after gzip:
+[2026-02-16T16:08:06.004Z] #13 12.86 
+[2026-02-16T16:08:06.004Z] #13 12.87   47.79 kB  build/static/js/main.f9a3c5a2.js
+[2026-02-16T16:08:06.004Z] #13 12.87   1.96 kB   build/static/css/main.d2728660.css
+[2026-02-16T16:08:06.004Z] #13 12.87 
+[2026-02-16T16:08:06.004Z] #13 12.87 The project was built assuming it is hosted at /.
+[2026-02-16T16:08:06.004Z] #13 12.87 You can control this with the homepage field in your package.json.
+[2026-02-16T16:08:06.004Z] #13 12.87 
+[2026-02-16T16:08:06.004Z] #13 12.87 The build folder is ready to be deployed.
+[2026-02-16T16:08:06.004Z] #13 12.87 You may serve it with a static server:
+[2026-02-16T16:08:06.004Z] #13 12.87 
+[2026-02-16T16:08:06.004Z] #13 12.87   npm install -g serve
+[2026-02-16T16:08:06.004Z] #13 12.87   serve -s build
+[2026-02-16T16:08:06.004Z] #13 12.87 
+[2026-02-16T16:08:06.004Z] #13 12.87 Find out more about deployment here:
+[2026-02-16T16:08:06.004Z] #13 12.87 
+[2026-02-16T16:08:06.004Z] #13 12.87   https://cra.link/deployment
+[2026-02-16T16:08:06.004Z] #13 12.87 
+[2026-02-16T16:08:06.004Z] #13 DONE 13.0s
+[2026-02-16T16:08:06.004Z] 
+[2026-02-16T16:08:06.004Z] #14 [stage-1 2/3] COPY nginx.conf /etc/nginx/conf.d/default.conf
+[2026-02-16T16:08:06.004Z] #14 CACHED
+[2026-02-16T16:08:06.004Z] 
+[2026-02-16T16:08:06.004Z] #15 [stage-1 3/3] COPY --from=build /app/build /usr/share/nginx/html
+[2026-02-16T16:08:06.004Z] #15 CACHED
+[2026-02-16T16:08:06.004Z] 
+[2026-02-16T16:08:06.004Z] #16 exporting to image
+[2026-02-16T16:08:06.004Z] #16 exporting layers done
+[2026-02-16T16:08:06.004Z] #16 writing image sha256:dd766517e272f7c9b9c0f0786981740d3c94318df40eb39f9e13b9ce273e96f9 done
+[2026-02-16T16:08:06.004Z] #16 naming to 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19 done
+[2026-02-16T16:08:06.004Z] #16 naming to 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:latest 0.0s done
+[2026-02-16T16:08:06.004Z] #16 DONE 0.0s
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // parallel
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Unit Tests)
+[Pipeline] parallel
+[Pipeline] { (Branch: Backend Tests)
+[Pipeline] { (Branch: Frontend Tests)
+[Pipeline] stage
+[Pipeline] { (Backend Tests)
+[Pipeline] stage
+[Pipeline] { (Frontend Tests)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:08:06.362Z] ���� Running backend unit tests...
+[Pipeline] dir
+[2026-02-16T16:08:06.372Z] Running in /var/lib/jenkins/workspace/TaskFlow-Pipeline/backend
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:08:06.387Z] ���� Running frontend unit tests...
+[Pipeline] dir
+[2026-02-16T16:08:06.397Z] Running in /var/lib/jenkins/workspace/TaskFlow-Pipeline/frontend
+[Pipeline] {
+[Pipeline] sh
+[Pipeline] sh
+[2026-02-16T16:08:06.679Z] ++ pwd
+[2026-02-16T16:08:06.680Z] + docker run --rm -v /var/lib/jenkins/workspace/TaskFlow-Pipeline/backend:/app -w /app node:18-alpine sh -c '
+[2026-02-16T16:08:06.680Z]                                         npm install
+[2026-02-16T16:08:06.680Z]                                         npm test
+[2026-02-16T16:08:06.680Z]                                     '
+[2026-02-16T16:08:06.697Z] ++ pwd
+[2026-02-16T16:08:06.697Z] + docker run --rm -v /var/lib/jenkins/workspace/TaskFlow-Pipeline/frontend:/app -w /app node:18-alpine sh -c '
+[2026-02-16T16:08:06.697Z]                                         npm install --legacy-peer-deps
+[2026-02-16T16:08:06.697Z]                                         CI=true npm test -- --passWithNoTests
+[2026-02-16T16:08:06.697Z]                                     '
+[2026-02-16T16:08:09.908Z] 
+[2026-02-16T16:08:09.908Z] up to date, audited 448 packages in 3s
+[2026-02-16T16:08:09.908Z] 
+[2026-02-16T16:08:09.908Z] 74 packages are looking for funding
+[2026-02-16T16:08:09.908Z]   run `npm fund` for details
+[2026-02-16T16:08:09.908Z] 
+[2026-02-16T16:08:09.908Z] 3 high severity vulnerabilities
+[2026-02-16T16:08:09.908Z] 
+[2026-02-16T16:08:09.908Z] To address all issues (including breaking changes), run:
+[2026-02-16T16:08:09.908Z]   npm audit fix --force
+[2026-02-16T16:08:09.908Z] 
+[2026-02-16T16:08:09.908Z] Run `npm audit` for details.
+[2026-02-16T16:08:09.908Z] npm notice
+[2026-02-16T16:08:09.908Z] npm notice New major version of npm available! 10.8.2 -> 11.10.0
+[2026-02-16T16:08:09.908Z] npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.10.0
+[2026-02-16T16:08:09.908Z] npm notice To update run: npm install -g npm@11.10.0
+[2026-02-16T16:08:09.908Z] npm notice
+[2026-02-16T16:08:10.159Z] 
+[2026-02-16T16:08:10.159Z] > taskflow@1.0.0 test
+[2026-02-16T16:08:10.159Z] > jest --coverage --ci --testResultsProcessor=jest-junit
+[2026-02-16T16:08:10.159Z] 
+[2026-02-16T16:08:12.642Z] PASS ./server.test.js
+[2026-02-16T16:08:12.642Z]   TaskFlow API Tests
+[2026-02-16T16:08:12.642Z]     GET /health
+[2026-02-16T16:08:12.642Z]       ��� should return healthy status (27 ms)
+[2026-02-16T16:08:12.642Z]     GET /api/tasks
+[2026-02-16T16:08:12.642Z]       ��� should return empty array initially (6 ms)
+[2026-02-16T16:08:12.642Z]     POST /api/tasks
+[2026-02-16T16:08:12.642Z]       ��� should create a new task (33 ms)
+[2026-02-16T16:08:12.642Z]       ��� should create task with minimal data (4 ms)
+[2026-02-16T16:08:12.642Z]     PATCH /api/tasks/:id
+[2026-02-16T16:08:12.642Z]       ��� should update a task (7 ms)
+[2026-02-16T16:08:12.642Z]       ��� should return 404 for non-existent task (4 ms)
+[2026-02-16T16:08:12.642Z]     DELETE /api/tasks/:id
+[2026-02-16T16:08:12.642Z]       ��� should delete a task (8 ms)
+[2026-02-16T16:08:12.642Z]       ��� should return 404 for non-existent task (2 ms)
+[2026-02-16T16:08:12.642Z] 
+[2026-02-16T16:08:12.642Z] ----------|---------|----------|---------|---------|-------------------
+[2026-02-16T16:08:12.642Z] File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+[2026-02-16T16:08:12.642Z] ----------|---------|----------|---------|---------|-------------------
+[2026-02-16T16:08:12.642Z] All files |       0 |        0 |       0 |       0 |                   
+[2026-02-16T16:08:12.642Z] ----------|---------|----------|---------|---------|-------------------
+[2026-02-16T16:08:12.642Z] Test Suites: 1 passed, 1 total
+[2026-02-16T16:08:12.642Z] Tests:       8 passed, 8 total
+[2026-02-16T16:08:12.642Z] Snapshots:   0 total
+[2026-02-16T16:08:12.642Z] Time:        1.368 s
+[2026-02-16T16:08:12.642Z] Ran all test suites.
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[2026-02-16T16:08:14.721Z] 
+[2026-02-16T16:08:14.721Z] up to date, audited 1335 packages in 7s
+[2026-02-16T16:08:14.721Z] 
+[2026-02-16T16:08:14.721Z] 271 packages are looking for funding
+[2026-02-16T16:08:14.721Z]   run `npm fund` for details
+[2026-02-16T16:08:14.721Z] 
+[2026-02-16T16:08:14.721Z] 9 vulnerabilities (3 moderate, 6 high)
+[2026-02-16T16:08:14.721Z] 
+[2026-02-16T16:08:14.721Z] To address all issues (including breaking changes), run:
+[2026-02-16T16:08:14.721Z]   npm audit fix --force
+[2026-02-16T16:08:14.721Z] 
+[2026-02-16T16:08:14.721Z] Run `npm audit` for details.
+[2026-02-16T16:08:14.721Z] npm notice
+[2026-02-16T16:08:14.721Z] npm notice New major version of npm available! 10.8.2 -> 11.10.0
+[2026-02-16T16:08:14.721Z] npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.10.0
+[2026-02-16T16:08:14.721Z] npm notice To update run: npm install -g npm@11.10.0
+[2026-02-16T16:08:14.721Z] npm notice
+[2026-02-16T16:08:14.971Z] 
+[2026-02-16T16:08:14.971Z] > taskflow-frontend@1.0.0 test
+[2026-02-16T16:08:14.971Z] > react-scripts test --watchAll=false --ci --passWithNoTests
+[2026-02-16T16:08:14.971Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: `ReactDOMTestUtils.act` is deprecated in favor of `React.act`. Import `act` from `react` instead of `react-dom/test-utils`. See https://react.dev/warnings/react-dom-test-utils for more info.
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 15 |[39m
+[2026-02-16T16:08:20.166Z]      [90m 16 |[39m   test([32m'renders TaskFlow heading'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 17 |[39m     render([33m<[39m[33mApp[39m [33m/[39m[33m>[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m           [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 18 |[39m     [36mconst[39m headingElement [33m=[39m screen[33m.[39mgetByRole([32m'heading'[39m[33m,[39m { name[33m:[39m [35m/taskflow/i[39m })[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 19 |[39m     expect(headingElement)[33m.[39mtoBeInTheDocument()[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 20 |[39m     [0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom-test-utils.development.js:71:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom-test-utils.development.js:45:7)
+[2026-02-16T16:08:20.166Z]       at actWithWarning (node_modules/react-dom/cjs/react-dom-test-utils.development.js:1736:7)
+[2026-02-16T16:08:20.166Z]       at node_modules/@testing-library/react/dist/act-compat.js:63:25
+[2026-02-16T16:08:20.166Z]       at renderRoot (node_modules/@testing-library/react/dist/pure.js:159:26)
+[2026-02-16T16:08:20.166Z]       at render (node_modules/@testing-library/react/dist/pure.js:246:10)
+[2026-02-16T16:08:20.166Z]       at Object.<anonymous> (src/App.test.js:17:11)
+[2026-02-16T16:08:20.166Z]       at TestScheduler.scheduleTests (node_modules/@jest/core/build/TestScheduler.js:333:13)
+[2026-02-16T16:08:20.166Z]       at runJest (node_modules/@jest/core/build/runJest.js:404:19)
+[2026-02-16T16:08:20.166Z]       at _run10000 (node_modules/@jest/core/build/cli/index.js:320:7)
+[2026-02-16T16:08:20.166Z]       at runCLI (node_modules/@jest/core/build/cli/index.js:173:3)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: An update to App inside a test was not wrapped in act(...).
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     When testing, code that causes React state updates should be wrapped into act(...):
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     act(() => {
+[2026-02-16T16:08:20.166Z]       /* fire events that update state */
+[2026-02-16T16:08:20.166Z]     });
+[2026-02-16T16:08:20.166Z]     /* assert on the output */
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+[2026-02-16T16:08:20.166Z]         at App (/app/src/App.js:10:37)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 27 |[39m       }
+[2026-02-16T16:08:20.166Z]      [90m 28 |[39m       [36mconst[39m data [33m=[39m [36mawait[39m response[33m.[39mjson()[33m;[39m
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 29 |[39m       setTasks(data)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m       [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 30 |[39m       setError([36mnull[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 31 |[39m     } [36mcatch[39m (err) {
+[2026-02-16T16:08:20.166Z]      [90m 32 |[39m       console[33m.[39merror([32m'Error fetching tasks:'[39m[33m,[39m err)[33m;[39m[0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+[2026-02-16T16:08:20.166Z]       at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+[2026-02-16T16:08:20.166Z]       at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+[2026-02-16T16:08:20.166Z]       at setTasks (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+[2026-02-16T16:08:20.166Z]       at fetchTasks (src/App.js:29:7)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: An update to App inside a test was not wrapped in act(...).
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     When testing, code that causes React state updates should be wrapped into act(...):
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     act(() => {
+[2026-02-16T16:08:20.166Z]       /* fire events that update state */
+[2026-02-16T16:08:20.166Z]     });
+[2026-02-16T16:08:20.166Z]     /* assert on the output */
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+[2026-02-16T16:08:20.166Z]         at App (/app/src/App.js:10:37)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 28 |[39m       [36mconst[39m data [33m=[39m [36mawait[39m response[33m.[39mjson()[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 29 |[39m       setTasks(data)[33m;[39m
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 30 |[39m       setError([36mnull[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m       [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 31 |[39m     } [36mcatch[39m (err) {
+[2026-02-16T16:08:20.166Z]      [90m 32 |[39m       console[33m.[39merror([32m'Error fetching tasks:'[39m[33m,[39m err)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 33 |[39m       setError([32m'Failed to load tasks. Please try again.'[39m)[33m;[39m[0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+[2026-02-16T16:08:20.166Z]       at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+[2026-02-16T16:08:20.166Z]       at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+[2026-02-16T16:08:20.166Z]       at setError (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+[2026-02-16T16:08:20.166Z]       at fetchTasks (src/App.js:30:7)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: An update to App inside a test was not wrapped in act(...).
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     When testing, code that causes React state updates should be wrapped into act(...):
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     act(() => {
+[2026-02-16T16:08:20.166Z]       /* fire events that update state */
+[2026-02-16T16:08:20.166Z]     });
+[2026-02-16T16:08:20.166Z]     /* assert on the output */
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+[2026-02-16T16:08:20.166Z]         at App (/app/src/App.js:10:37)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 33 |[39m       setError([32m'Failed to load tasks. Please try again.'[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 34 |[39m     } [36mfinally[39m {
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 35 |[39m       setLoading([36mfalse[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m       [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 36 |[39m     }
+[2026-02-16T16:08:20.166Z]      [90m 37 |[39m   }[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 38 |[39m[0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+[2026-02-16T16:08:20.166Z]       at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+[2026-02-16T16:08:20.166Z]       at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+[2026-02-16T16:08:20.166Z]       at setLoading (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+[2026-02-16T16:08:20.166Z]       at fetchTasks (src/App.js:35:7)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: An update to App inside a test was not wrapped in act(...).
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     When testing, code that causes React state updates should be wrapped into act(...):
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     act(() => {
+[2026-02-16T16:08:20.166Z]       /* fire events that update state */
+[2026-02-16T16:08:20.166Z]     });
+[2026-02-16T16:08:20.166Z]     /* assert on the output */
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+[2026-02-16T16:08:20.166Z]         at App (/app/src/App.js:10:37)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 27 |[39m       }
+[2026-02-16T16:08:20.166Z]      [90m 28 |[39m       [36mconst[39m data [33m=[39m [36mawait[39m response[33m.[39mjson()[33m;[39m
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 29 |[39m       setTasks(data)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m       [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 30 |[39m       setError([36mnull[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 31 |[39m     } [36mcatch[39m (err) {
+[2026-02-16T16:08:20.166Z]      [90m 32 |[39m       console[33m.[39merror([32m'Error fetching tasks:'[39m[33m,[39m err)[33m;[39m[0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+[2026-02-16T16:08:20.166Z]       at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+[2026-02-16T16:08:20.166Z]       at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+[2026-02-16T16:08:20.166Z]       at setTasks (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+[2026-02-16T16:08:20.166Z]       at fetchTasks (src/App.js:29:7)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: An update to App inside a test was not wrapped in act(...).
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     When testing, code that causes React state updates should be wrapped into act(...):
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     act(() => {
+[2026-02-16T16:08:20.166Z]       /* fire events that update state */
+[2026-02-16T16:08:20.166Z]     });
+[2026-02-16T16:08:20.166Z]     /* assert on the output */
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+[2026-02-16T16:08:20.166Z]         at App (/app/src/App.js:10:37)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 28 |[39m       [36mconst[39m data [33m=[39m [36mawait[39m response[33m.[39mjson()[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 29 |[39m       setTasks(data)[33m;[39m
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 30 |[39m       setError([36mnull[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m       [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 31 |[39m     } [36mcatch[39m (err) {
+[2026-02-16T16:08:20.166Z]      [90m 32 |[39m       console[33m.[39merror([32m'Error fetching tasks:'[39m[33m,[39m err)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 33 |[39m       setError([32m'Failed to load tasks. Please try again.'[39m)[33m;[39m[0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+[2026-02-16T16:08:20.166Z]       at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+[2026-02-16T16:08:20.166Z]       at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+[2026-02-16T16:08:20.166Z]       at setError (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+[2026-02-16T16:08:20.166Z]       at fetchTasks (src/App.js:30:7)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: An update to App inside a test was not wrapped in act(...).
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     When testing, code that causes React state updates should be wrapped into act(...):
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     act(() => {
+[2026-02-16T16:08:20.166Z]       /* fire events that update state */
+[2026-02-16T16:08:20.166Z]     });
+[2026-02-16T16:08:20.166Z]     /* assert on the output */
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+[2026-02-16T16:08:20.166Z]         at App (/app/src/App.js:10:37)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 33 |[39m       setError([32m'Failed to load tasks. Please try again.'[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 34 |[39m     } [36mfinally[39m {
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 35 |[39m       setLoading([36mfalse[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m       [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 36 |[39m     }
+[2026-02-16T16:08:20.166Z]      [90m 37 |[39m   }[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 38 |[39m[0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+[2026-02-16T16:08:20.166Z]       at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+[2026-02-16T16:08:20.166Z]       at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+[2026-02-16T16:08:20.166Z]       at setLoading (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+[2026-02-16T16:08:20.166Z]       at fetchTasks (src/App.js:35:7)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: An update to App inside a test was not wrapped in act(...).
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     When testing, code that causes React state updates should be wrapped into act(...):
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     act(() => {
+[2026-02-16T16:08:20.166Z]       /* fire events that update state */
+[2026-02-16T16:08:20.166Z]     });
+[2026-02-16T16:08:20.166Z]     /* assert on the output */
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+[2026-02-16T16:08:20.166Z]         at App (/app/src/App.js:10:37)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 27 |[39m       }
+[2026-02-16T16:08:20.166Z]      [90m 28 |[39m       [36mconst[39m data [33m=[39m [36mawait[39m response[33m.[39mjson()[33m;[39m
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 29 |[39m       setTasks(data)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m       [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 30 |[39m       setError([36mnull[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 31 |[39m     } [36mcatch[39m (err) {
+[2026-02-16T16:08:20.166Z]      [90m 32 |[39m       console[33m.[39merror([32m'Error fetching tasks:'[39m[33m,[39m err)[33m;[39m[0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+[2026-02-16T16:08:20.166Z]       at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+[2026-02-16T16:08:20.166Z]       at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+[2026-02-16T16:08:20.166Z]       at setTasks (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+[2026-02-16T16:08:20.166Z]       at fetchTasks (src/App.js:29:7)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: An update to App inside a test was not wrapped in act(...).
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     When testing, code that causes React state updates should be wrapped into act(...):
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     act(() => {
+[2026-02-16T16:08:20.166Z]       /* fire events that update state */
+[2026-02-16T16:08:20.166Z]     });
+[2026-02-16T16:08:20.166Z]     /* assert on the output */
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+[2026-02-16T16:08:20.166Z]         at App (/app/src/App.js:10:37)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 28 |[39m       [36mconst[39m data [33m=[39m [36mawait[39m response[33m.[39mjson()[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 29 |[39m       setTasks(data)[33m;[39m
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 30 |[39m       setError([36mnull[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m       [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 31 |[39m     } [36mcatch[39m (err) {
+[2026-02-16T16:08:20.166Z]      [90m 32 |[39m       console[33m.[39merror([32m'Error fetching tasks:'[39m[33m,[39m err)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 33 |[39m       setError([32m'Failed to load tasks. Please try again.'[39m)[33m;[39m[0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+[2026-02-16T16:08:20.166Z]       at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+[2026-02-16T16:08:20.166Z]       at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+[2026-02-16T16:08:20.166Z]       at setError (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+[2026-02-16T16:08:20.166Z]       at fetchTasks (src/App.js:30:7)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]   console.error
+[2026-02-16T16:08:20.166Z]     Warning: An update to App inside a test was not wrapped in act(...).
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     When testing, code that causes React state updates should be wrapped into act(...):
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     act(() => {
+[2026-02-16T16:08:20.166Z]       /* fire events that update state */
+[2026-02-16T16:08:20.166Z]     });
+[2026-02-16T16:08:20.166Z]     /* assert on the output */
+[2026-02-16T16:08:20.166Z]     
+[2026-02-16T16:08:20.166Z]     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+[2026-02-16T16:08:20.166Z]         at App (/app/src/App.js:10:37)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]     [0m [90m 33 |[39m       setError([32m'Failed to load tasks. Please try again.'[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 34 |[39m     } [36mfinally[39m {
+[2026-02-16T16:08:20.166Z]     [31m[1m>[22m[39m[90m 35 |[39m       setLoading([36mfalse[39m)[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m    |[39m       [31m[1m^[22m[39m
+[2026-02-16T16:08:20.166Z]      [90m 36 |[39m     }
+[2026-02-16T16:08:20.166Z]      [90m 37 |[39m   }[33m;[39m
+[2026-02-16T16:08:20.166Z]      [90m 38 |[39m[0m
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z]       at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+[2026-02-16T16:08:20.166Z]       at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+[2026-02-16T16:08:20.166Z]       at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+[2026-02-16T16:08:20.166Z]       at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+[2026-02-16T16:08:20.166Z]       at setLoading (node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+[2026-02-16T16:08:20.166Z]       at fetchTasks (src/App.js:35:7)
+[2026-02-16T16:08:20.166Z] 
+[2026-02-16T16:08:20.166Z] PASS src/App.test.js
+[2026-02-16T16:08:20.166Z]   App Component
+[2026-02-16T16:08:20.166Z]     ��� renders TaskFlow heading (155 ms)
+[2026-02-16T16:08:20.167Z]     ��� renders task form (32 ms)
+[2026-02-16T16:08:20.167Z]     ��� fetches tasks on mount (32 ms)
+[2026-02-16T16:08:20.167Z] 
+[2026-02-16T16:08:20.167Z] Test Suites: 1 passed, 1 total
+[2026-02-16T16:08:20.167Z] Tests:       3 passed, 3 total
+[2026-02-16T16:08:20.167Z] Snapshots:   0 total
+[2026-02-16T16:08:20.167Z] Time:        3.554 s
+[2026-02-16T16:08:20.167Z] Ran all test suites.
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // parallel
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Code Quality)
+[Pipeline] parallel
+[Pipeline] { (Branch: Backend Lint)
+[Pipeline] { (Branch: Test Images)
+[Pipeline] stage
+[Pipeline] { (Backend Lint)
+[Pipeline] stage
+[Pipeline] { (Test Images)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:08:20.532Z] ���� Running backend linting...
+[Pipeline] dir
+[2026-02-16T16:08:20.543Z] Running in /var/lib/jenkins/workspace/TaskFlow-Pipeline/backend
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:08:20.558Z] ���� Testing Docker images...
+[Pipeline] sh
+[Pipeline] sh
+[2026-02-16T16:08:20.824Z] + echo 'Testing backend image...'
+[2026-02-16T16:08:20.825Z] Testing backend image...
+[2026-02-16T16:08:20.825Z] + docker run --rm 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19 node --version
+[2026-02-16T16:08:20.860Z] ++ pwd
+[2026-02-16T16:08:20.860Z] + docker run --rm -v /var/lib/jenkins/workspace/TaskFlow-Pipeline/backend:/app -w /app node:18-alpine sh -c '
+[2026-02-16T16:08:20.860Z]                                         npm install
+[2026-02-16T16:08:20.860Z]                                         npm run lint || echo "Linting warnings found"
+[2026-02-16T16:08:20.860Z]                                     '
+[2026-02-16T16:08:21.076Z] v18.20.8
+[2026-02-16T16:08:21.326Z] + docker run --rm 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19 npm --version
+[2026-02-16T16:08:22.237Z] 10.8.2
+[Pipeline] sh
+[2026-02-16T16:08:22.546Z] + echo 'Testing frontend image...'
+[2026-02-16T16:08:22.546Z] Testing frontend image...
+[2026-02-16T16:08:22.546Z] + docker run --rm 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19 nginx -v
+[2026-02-16T16:08:23.097Z] /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+[2026-02-16T16:08:23.097Z] /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+[2026-02-16T16:08:23.097Z] /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+[2026-02-16T16:08:23.097Z] 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+[2026-02-16T16:08:23.097Z] 10-listen-on-ipv6-by-default.sh: info: /etc/nginx/conf.d/default.conf differs from the packaged version
+[2026-02-16T16:08:23.097Z] /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+[2026-02-16T16:08:23.097Z] /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+[2026-02-16T16:08:23.097Z] /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+[2026-02-16T16:08:23.097Z] /docker-entrypoint.sh: Configuration complete; ready for start up
+[2026-02-16T16:08:23.097Z] nginx version: nginx/1.29.5
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[2026-02-16T16:08:24.089Z] 
+[2026-02-16T16:08:24.089Z] up to date, audited 448 packages in 2s
+[2026-02-16T16:08:24.089Z] 
+[2026-02-16T16:08:24.089Z] 74 packages are looking for funding
+[2026-02-16T16:08:24.089Z]   run `npm fund` for details
+[2026-02-16T16:08:24.089Z] 
+[2026-02-16T16:08:24.089Z] 3 high severity vulnerabilities
+[2026-02-16T16:08:24.089Z] 
+[2026-02-16T16:08:24.089Z] To address all issues (including breaking changes), run:
+[2026-02-16T16:08:24.089Z]   npm audit fix --force
+[2026-02-16T16:08:24.089Z] 
+[2026-02-16T16:08:24.089Z] Run `npm audit` for details.
+[2026-02-16T16:08:24.089Z] npm notice
+[2026-02-16T16:08:24.089Z] npm notice New major version of npm available! 10.8.2 -> 11.10.0
+[2026-02-16T16:08:24.089Z] npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.10.0
+[2026-02-16T16:08:24.089Z] npm notice To update run: npm install -g npm@11.10.0
+[2026-02-16T16:08:24.089Z] npm notice
+[2026-02-16T16:08:24.089Z] 
+[2026-02-16T16:08:24.089Z] > taskflow@1.0.0 lint
+[2026-02-16T16:08:24.089Z] > eslint .
+[2026-02-16T16:08:24.089Z] 
+[2026-02-16T16:08:24.640Z] 
+[2026-02-16T16:08:24.640Z] Oops! Something went wrong! :(
+[2026-02-16T16:08:24.640Z] 
+[2026-02-16T16:08:24.640Z] ESLint: 8.57.1
+[2026-02-16T16:08:24.640Z] 
+[2026-02-16T16:08:24.640Z] ESLint couldn't find a configuration file. To set up a configuration file for this project, please run:
+[2026-02-16T16:08:24.640Z] 
+[2026-02-16T16:08:24.640Z]     npm init @eslint/config
+[2026-02-16T16:08:24.640Z] 
+[2026-02-16T16:08:24.640Z] ESLint looked for configuration files in /app/coverage/lcov-report and its ancestors. If it found none, it then looked in your home directory.
+[2026-02-16T16:08:24.640Z] 
+[2026-02-16T16:08:24.640Z] If you think you already have a configuration file or if you need more help, please stop by the ESLint Discord server: https://eslint.org/chat
+[2026-02-16T16:08:24.640Z] 
+[2026-02-16T16:08:24.640Z] Linting warnings found
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // parallel
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Integration Tests)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:08:24.924Z] ���� Running integration tests...
+[Pipeline] sh
+[2026-02-16T16:08:25.202Z] + docker run -d --name test-backend-19 -p 5001:5000 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19
+[2026-02-16T16:08:25.202Z] a5c6721cd386851f6ba570da75bddc101a1ae7a00d7410d6bb62df1739fdeb92
+[2026-02-16T16:08:25.452Z] + sleep 5
+[2026-02-16T16:08:30.647Z] + curl -f http://localhost:5001/health
+[2026-02-16T16:08:30.647Z]   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+[2026-02-16T16:08:30.647Z]                                  Dload  Upload   Total   Spent    Left  Speed
+[2026-02-16T16:08:30.647Z] [2026-02-16T16:08:30.647Z]   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0[2026-02-16T16:08:30.647Z] 100    74  100    74    0     0   7576      0 --:--:-- --:--:-- --:--:--  8222
+[2026-02-16T16:08:30.647Z] {"status":"healthy","timestamp":"2026-02-16T16:08:30.450Z","tasksCount":0}+ curl -f http://localhost:5001/api/tasks
+[2026-02-16T16:08:30.647Z]   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+[2026-02-16T16:08:30.647Z]                                  Dload  Upload   Total   Spent    Left  Speed
+[2026-02-16T16:08:30.647Z] [2026-02-16T16:08:30.647Z]   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0[2026-02-16T16:08:30.647Z] 100     2  100     2    0     0    796      0 --:--:-- --:--:-- --:--:--  1000
+[2026-02-16T16:08:30.647Z] []+ curl -X POST http://localhost:5001/api/tasks -H 'Content-Type: application/json' -d '{"title":"Test Task","priority":"high"}'
+[2026-02-16T16:08:30.647Z]   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+[2026-02-16T16:08:30.647Z]                                  Dload  Upload   Total   Spent    Left  Speed
+[2026-02-16T16:08:30.647Z] [2026-02-16T16:08:30.647Z]   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0[2026-02-16T16:08:30.647Z] 100   217  100   178  100    39   8878   1945 --:--:-- --:--:-- --:--:-- 10850
+[2026-02-16T16:08:30.647Z] {"id":"867765ff-5e1b-4a28-a646-ad47d94a353e","title":"Test Task","description":"","completed":false,"createdAt":"2026-02-16T16:08:30.488Z","updatedAt":"2026-02-16T16:08:30.488Z"}++ curl -s http://localhost:5001/api/tasks
+[2026-02-16T16:08:30.647Z] + TASKS='[{"id":"867765ff-5e1b-4a28-a646-ad47d94a353e","title":"Test Task","description":"","completed":false,"createdAt":"2026-02-16T16:08:30.488Z","updatedAt":"2026-02-16T16:08:30.488Z"}]'
+[2026-02-16T16:08:30.647Z] + echo 'Tasks: [{"id":"867765ff-5e1b-4a28-a646-ad47d94a353e","title":"Test Task","description":"","completed":false,"createdAt":"2026-02-16T16:08:30.488Z","updatedAt":"2026-02-16T16:08:30.488Z"}]'
+[2026-02-16T16:08:30.647Z] Tasks: [{"id":"867765ff-5e1b-4a28-a646-ad47d94a353e","title":"Test Task","description":"","completed":false,"createdAt":"2026-02-16T16:08:30.488Z","updatedAt":"2026-02-16T16:08:30.488Z"}]
+[2026-02-16T16:08:30.647Z] + docker stop test-backend-19
+[2026-02-16T16:08:30.897Z] test-backend-19
+[2026-02-16T16:08:30.897Z] + docker rm test-backend-19
+[2026-02-16T16:08:30.897Z] test-backend-19
+[2026-02-16T16:08:30.897Z] + echo '��������� Integration tests passed!'
+[2026-02-16T16:08:30.897Z] ��������� Integration tests passed!
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push to ECR)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:08:31.045Z] ���� Pushing images to AWS ECR...
+[Pipeline] sh
+[2026-02-16T16:08:31.311Z] + docker login --username AWS --password-stdin 697863031884.dkr.ecr.eu-west-1.amazonaws.com
+[2026-02-16T16:08:31.311Z] + aws ecr get-login-password --region eu-west-1
+[2026-02-16T16:08:31.862Z] WARNING! Your password will be stored unencrypted in /var/lib/jenkins/.docker/config.json.
+[2026-02-16T16:08:31.862Z] Configure a credential helper to remove this warning. See
+[2026-02-16T16:08:31.862Z] https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+[2026-02-16T16:08:31.862Z] 
+[2026-02-16T16:08:31.862Z] Login Succeeded
+[Pipeline] sh
+[2026-02-16T16:08:32.136Z] + docker push 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19
+[2026-02-16T16:08:32.136Z] The push refers to repository [697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend]
+[2026-02-16T16:08:32.136Z] 9b58738341bd: Preparing
+[2026-02-16T16:08:32.136Z] 726644588a04: Preparing
+[2026-02-16T16:08:32.136Z] 4eaede75e333: Preparing
+[2026-02-16T16:08:32.136Z] 7aa05f02163d: Preparing
+[2026-02-16T16:08:32.136Z] aafe32d6f25b: Preparing
+[2026-02-16T16:08:32.136Z] bd1ad927aa0e: Preparing
+[2026-02-16T16:08:32.136Z] 82140d9a70a7: Preparing
+[2026-02-16T16:08:32.136Z] f3b40b0cdb1c: Preparing
+[2026-02-16T16:08:32.136Z] 0b1f26057bd0: Preparing
+[2026-02-16T16:08:32.136Z] 08000c18d16d: Preparing
+[2026-02-16T16:08:32.136Z] bd1ad927aa0e: Waiting
+[2026-02-16T16:08:32.136Z] 82140d9a70a7: Waiting
+[2026-02-16T16:08:32.136Z] f3b40b0cdb1c: Waiting
+[2026-02-16T16:08:32.136Z] 0b1f26057bd0: Waiting
+[2026-02-16T16:08:32.136Z] 08000c18d16d: Waiting
+[2026-02-16T16:08:32.687Z] 726644588a04: Pushed
+[2026-02-16T16:08:32.687Z] bd1ad927aa0e: Layer already exists
+[2026-02-16T16:08:32.687Z] 7aa05f02163d: Pushed
+[2026-02-16T16:08:32.687Z] 82140d9a70a7: Layer already exists
+[2026-02-16T16:08:32.687Z] f3b40b0cdb1c: Layer already exists
+[2026-02-16T16:08:32.687Z] 08000c18d16d: Layer already exists
+[2026-02-16T16:08:32.687Z] 0b1f26057bd0: Layer already exists
+[2026-02-16T16:08:32.687Z] aafe32d6f25b: Pushed
+[2026-02-16T16:08:33.237Z] 9b58738341bd: Pushed
+[2026-02-16T16:08:33.487Z] 4eaede75e333: Pushed
+[2026-02-16T16:08:34.038Z] 19: digest: sha256:47470c1a5c38e678c24f9498754346f2019314834069ee64ced475ba420e7c5f size: 2415
+[2026-02-16T16:08:34.038Z] + docker push 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:latest
+[2026-02-16T16:08:34.288Z] The push refers to repository [697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend]
+[2026-02-16T16:08:34.288Z] 9b58738341bd: Preparing
+[2026-02-16T16:08:34.288Z] 726644588a04: Preparing
+[2026-02-16T16:08:34.288Z] 4eaede75e333: Preparing
+[2026-02-16T16:08:34.288Z] 7aa05f02163d: Preparing
+[2026-02-16T16:08:34.288Z] aafe32d6f25b: Preparing
+[2026-02-16T16:08:34.288Z] bd1ad927aa0e: Preparing
+[2026-02-16T16:08:34.288Z] 82140d9a70a7: Preparing
+[2026-02-16T16:08:34.288Z] f3b40b0cdb1c: Preparing
+[2026-02-16T16:08:34.288Z] 0b1f26057bd0: Preparing
+[2026-02-16T16:08:34.288Z] 08000c18d16d: Preparing
+[2026-02-16T16:08:34.288Z] 82140d9a70a7: Waiting
+[2026-02-16T16:08:34.288Z] f3b40b0cdb1c: Waiting
+[2026-02-16T16:08:34.288Z] 0b1f26057bd0: Waiting
+[2026-02-16T16:08:34.288Z] 08000c18d16d: Waiting
+[2026-02-16T16:08:34.288Z] bd1ad927aa0e: Waiting
+[2026-02-16T16:08:34.288Z] 4eaede75e333: Layer already exists
+[2026-02-16T16:08:34.288Z] 726644588a04: Layer already exists
+[2026-02-16T16:08:34.288Z] 7aa05f02163d: Layer already exists
+[2026-02-16T16:08:34.288Z] 9b58738341bd: Layer already exists
+[2026-02-16T16:08:34.288Z] aafe32d6f25b: Layer already exists
+[2026-02-16T16:08:34.288Z] f3b40b0cdb1c: Layer already exists
+[2026-02-16T16:08:34.288Z] bd1ad927aa0e: Layer already exists
+[2026-02-16T16:08:34.288Z] 82140d9a70a7: Layer already exists
+[2026-02-16T16:08:34.289Z] 08000c18d16d: Layer already exists
+[2026-02-16T16:08:34.289Z] 0b1f26057bd0: Layer already exists
+[2026-02-16T16:08:34.289Z] latest: digest: sha256:47470c1a5c38e678c24f9498754346f2019314834069ee64ced475ba420e7c5f size: 2415
+[Pipeline] sh
+[2026-02-16T16:08:34.564Z] + docker push 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19
+[2026-02-16T16:08:34.564Z] The push refers to repository [697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend]
+[2026-02-16T16:08:34.564Z] f096f00a38be: Preparing
+[2026-02-16T16:08:34.564Z] 9857fcb1ca7f: Preparing
+[2026-02-16T16:08:34.564Z] da3ac26fdf0f: Preparing
+[2026-02-16T16:08:34.564Z] 7b2903554e63: Preparing
+[2026-02-16T16:08:34.564Z] 6c0e59fd138a: Preparing
+[2026-02-16T16:08:34.564Z] aa0fc249df10: Preparing
+[2026-02-16T16:08:34.564Z] f35bcec50d8c: Preparing
+[2026-02-16T16:08:34.564Z] 660f9a93104f: Preparing
+[2026-02-16T16:08:34.564Z] 53998a5033c3: Preparing
+[2026-02-16T16:08:34.564Z] 989e799e6349: Preparing
+[2026-02-16T16:08:34.564Z] aa0fc249df10: Waiting
+[2026-02-16T16:08:34.564Z] f35bcec50d8c: Waiting
+[2026-02-16T16:08:34.564Z] 660f9a93104f: Waiting
+[2026-02-16T16:08:34.564Z] 53998a5033c3: Waiting
+[2026-02-16T16:08:34.564Z] 989e799e6349: Waiting
+[2026-02-16T16:08:34.564Z] 9857fcb1ca7f: Layer already exists
+[2026-02-16T16:08:34.564Z] 6c0e59fd138a: Layer already exists
+[2026-02-16T16:08:34.564Z] f096f00a38be: Layer already exists
+[2026-02-16T16:08:34.564Z] da3ac26fdf0f: Layer already exists
+[2026-02-16T16:08:34.564Z] 7b2903554e63: Layer already exists
+[2026-02-16T16:08:34.564Z] aa0fc249df10: Layer already exists
+[2026-02-16T16:08:34.564Z] 660f9a93104f: Layer already exists
+[2026-02-16T16:08:34.564Z] f35bcec50d8c: Layer already exists
+[2026-02-16T16:08:34.564Z] 53998a5033c3: Layer already exists
+[2026-02-16T16:08:34.564Z] 989e799e6349: Layer already exists
+[2026-02-16T16:08:34.564Z] 19: digest: sha256:6d9a6e5769320c8c39a8f17003920c6fe01d32f14201f4f5cae7fb8e216e5c7a size: 2406
+[2026-02-16T16:08:34.564Z] + docker push 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:latest
+[2026-02-16T16:08:34.564Z] The push refers to repository [697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend]
+[2026-02-16T16:08:34.814Z] f096f00a38be: Preparing
+[2026-02-16T16:08:34.814Z] 9857fcb1ca7f: Preparing
+[2026-02-16T16:08:34.814Z] da3ac26fdf0f: Preparing
+[2026-02-16T16:08:34.814Z] 7b2903554e63: Preparing
+[2026-02-16T16:08:34.814Z] 6c0e59fd138a: Preparing
+[2026-02-16T16:08:34.814Z] aa0fc249df10: Preparing
+[2026-02-16T16:08:34.814Z] f35bcec50d8c: Preparing
+[2026-02-16T16:08:34.814Z] 660f9a93104f: Preparing
+[2026-02-16T16:08:34.814Z] 53998a5033c3: Preparing
+[2026-02-16T16:08:34.814Z] 989e799e6349: Preparing
+[2026-02-16T16:08:34.814Z] aa0fc249df10: Waiting
+[2026-02-16T16:08:34.814Z] f35bcec50d8c: Waiting
+[2026-02-16T16:08:34.814Z] 660f9a93104f: Waiting
+[2026-02-16T16:08:34.814Z] 53998a5033c3: Waiting
+[2026-02-16T16:08:34.814Z] 989e799e6349: Waiting
+[2026-02-16T16:08:34.814Z] f096f00a38be: Layer already exists
+[2026-02-16T16:08:34.814Z] 9857fcb1ca7f: Layer already exists
+[2026-02-16T16:08:34.814Z] da3ac26fdf0f: Layer already exists
+[2026-02-16T16:08:34.814Z] 6c0e59fd138a: Layer already exists
+[2026-02-16T16:08:34.814Z] 7b2903554e63: Layer already exists
+[2026-02-16T16:08:34.814Z] f35bcec50d8c: Layer already exists
+[2026-02-16T16:08:34.814Z] 53998a5033c3: Layer already exists
+[2026-02-16T16:08:34.814Z] 660f9a93104f: Layer already exists
+[2026-02-16T16:08:34.814Z] aa0fc249df10: Layer already exists
+[2026-02-16T16:08:34.814Z] 989e799e6349: Layer already exists
+[2026-02-16T16:08:34.814Z] latest: digest: sha256:6d9a6e5769320c8c39a8f17003920c6fe01d32f14201f4f5cae7fb8e216e5c7a size: 2406
+[Pipeline] echo
+[2026-02-16T16:08:34.833Z] ��� Images pushed successfully to ECR!
+[Pipeline] echo
+[2026-02-16T16:08:34.846Z] Backend: 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19
+[Pipeline] echo
+[2026-02-16T16:08:34.858Z] Frontend: 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to EC2)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:08:34.994Z] ���� Deploying to EC2...
+[Pipeline] sh
+[2026-02-16T16:08:35.261Z] + ssh -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no ec2-user@54.170.165.207 '
+[2026-02-16T16:08:35.261Z]                             mkdir -p ~/taskflow
+[2026-02-16T16:08:35.261Z]                         '
+[2026-02-16T16:08:35.261Z] Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts).
+[Pipeline] sh
+[2026-02-16T16:08:35.535Z] + scp -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no docker-compose.prod.yml 'ec2-user@54.170.165.207:~/taskflow/docker-compose.yml'
+[2026-02-16T16:08:35.536Z] Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts).
+[Pipeline] sh
+[2026-02-16T16:08:35.812Z] + ssh -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no ec2-user@54.170.165.207 '
+[2026-02-16T16:08:35.812Z]                             cd ~/taskflow
+[2026-02-16T16:08:35.812Z]                             
+[2026-02-16T16:08:35.812Z]                             # Login to ECR
+[2026-02-16T16:08:35.812Z]                             aws ecr get-login-password --region eu-west-1 |                             docker login --username AWS --password-stdin 697863031884.dkr.ecr.eu-west-1.amazonaws.com
+[2026-02-16T16:08:35.812Z]                             
+[2026-02-16T16:08:35.812Z]                             # Pull latest images
+[2026-02-16T16:08:35.812Z]                             docker pull 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19
+[2026-02-16T16:08:35.812Z]                             docker pull 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19
+[2026-02-16T16:08:35.812Z]                             
+[2026-02-16T16:08:35.812Z]                             # Stop existing containers
+[2026-02-16T16:08:35.812Z]                             docker-compose down || true
+[2026-02-16T16:08:35.812Z]                             
+[2026-02-16T16:08:35.812Z]                             # Start new containers
+[2026-02-16T16:08:35.812Z]                             IMAGE_TAG=19 docker-compose up -d
+[2026-02-16T16:08:35.812Z]                             
+[2026-02-16T16:08:35.812Z]                             # Wait for services to be healthy
+[2026-02-16T16:08:35.812Z]                             sleep 10
+[2026-02-16T16:08:35.812Z]                             
+[2026-02-16T16:08:35.812Z]                             # Check container status
+[2026-02-16T16:08:35.812Z]                             docker-compose ps
+[2026-02-16T16:08:35.812Z]                             
+[2026-02-16T16:08:35.812Z]                             # Verify application is running
+[2026-02-16T16:08:35.812Z]                             curl -f http://localhost/health || exit 1
+[2026-02-16T16:08:35.812Z]                             
+[2026-02-16T16:08:35.812Z]                             echo "��������� Deployment successful!"
+[2026-02-16T16:08:35.812Z]                         '
+[2026-02-16T16:08:35.812Z] Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts).
+[2026-02-16T16:08:36.363Z] WARNING! Your password will be stored unencrypted in /home/ec2-user/.docker/config.json.
+[2026-02-16T16:08:36.363Z] Configure a credential helper to remove this warning. See
+[2026-02-16T16:08:36.363Z] https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+[2026-02-16T16:08:36.363Z] 
+[2026-02-16T16:08:36.363Z] Login Succeeded
+[2026-02-16T16:08:36.613Z] 19: Pulling from taskflow-backend
+[2026-02-16T16:08:36.613Z] f18232174bc9: Already exists
+[2026-02-16T16:08:36.613Z] dd71dde834b5: Already exists
+[2026-02-16T16:08:36.613Z] 1e5a4c89cee5: Already exists
+[2026-02-16T16:08:36.613Z] 25ff2da83641: Already exists
+[2026-02-16T16:08:36.613Z] 0e4a128085d2: Already exists
+[2026-02-16T16:08:36.613Z] b304eb0b83dc: Pulling fs layer
+[2026-02-16T16:08:36.613Z] 73dfd133de65: Pulling fs layer
+[2026-02-16T16:08:36.613Z] 6f9a030bc57b: Pulling fs layer
+[2026-02-16T16:08:36.613Z] 1c577f69e914: Pulling fs layer
+[2026-02-16T16:08:36.613Z] 0331dd4652b2: Pulling fs layer
+[2026-02-16T16:08:36.613Z] 1c577f69e914: Waiting
+[2026-02-16T16:08:36.613Z] 0331dd4652b2: Waiting
+[2026-02-16T16:08:36.613Z] 73dfd133de65: Download complete
+[2026-02-16T16:08:36.613Z] 6f9a030bc57b: Verifying Checksum
+[2026-02-16T16:08:36.613Z] 6f9a030bc57b: Download complete
+[2026-02-16T16:08:36.613Z] b304eb0b83dc: Verifying Checksum
+[2026-02-16T16:08:36.613Z] b304eb0b83dc: Download complete
+[2026-02-16T16:08:36.864Z] 1c577f69e914: Verifying Checksum
+[2026-02-16T16:08:36.864Z] 1c577f69e914: Download complete
+[2026-02-16T16:08:36.864Z] b304eb0b83dc: Pull complete
+[2026-02-16T16:08:36.864Z] 0331dd4652b2: Verifying Checksum
+[2026-02-16T16:08:36.864Z] 0331dd4652b2: Download complete
+[2026-02-16T16:08:36.864Z] 73dfd133de65: Pull complete
+[2026-02-16T16:08:37.114Z] 6f9a030bc57b: Pull complete
+[2026-02-16T16:08:37.114Z] 1c577f69e914: Pull complete
+[2026-02-16T16:08:37.364Z] 0331dd4652b2: Pull complete
+[2026-02-16T16:08:37.364Z] Digest: sha256:47470c1a5c38e678c24f9498754346f2019314834069ee64ced475ba420e7c5f
+[2026-02-16T16:08:37.364Z] Status: Downloaded newer image for 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19
+[2026-02-16T16:08:37.364Z] 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19
+[2026-02-16T16:08:37.615Z] 19: Pulling from taskflow-frontend
+[2026-02-16T16:08:37.615Z] Digest: sha256:6d9a6e5769320c8c39a8f17003920c6fe01d32f14201f4f5cae7fb8e216e5c7a
+[2026-02-16T16:08:37.615Z] Status: Downloaded newer image for 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19
+[2026-02-16T16:08:37.615Z] 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19
+[2026-02-16T16:08:37.615Z] time="2026-02-16T16:08:37Z" level=warning msg="/home/ec2-user/taskflow/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[2026-02-16T16:08:37.615Z]  Container taskflow-frontend-prod Stopping 
+[2026-02-16T16:08:38.166Z]  Container taskflow-frontend-prod Stopped 
+[2026-02-16T16:08:38.166Z]  Container taskflow-frontend-prod Removing 
+[2026-02-16T16:08:38.166Z]  Container taskflow-frontend-prod Removed 
+[2026-02-16T16:08:38.166Z]  Container taskflow-backend-prod Stopping 
+[2026-02-16T16:08:38.166Z]  Container taskflow-backend-prod Stopped 
+[2026-02-16T16:08:38.166Z]  Container taskflow-backend-prod Removing 
+[2026-02-16T16:08:38.166Z]  Container taskflow-backend-prod Removed 
+[2026-02-16T16:08:38.166Z]  Network taskflow_taskflow-network Removing 
+[2026-02-16T16:08:38.416Z]  Network taskflow_taskflow-network Removed 
+[2026-02-16T16:08:38.416Z] time="2026-02-16T16:08:38Z" level=warning msg="/home/ec2-user/taskflow/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[2026-02-16T16:08:38.416Z]  Network taskflow_taskflow-network Creating 
+[2026-02-16T16:08:38.416Z]  Network taskflow_taskflow-network Created 
+[2026-02-16T16:08:38.416Z]  Container taskflow-backend-prod Creating 
+[2026-02-16T16:08:38.416Z]  Container taskflow-backend-prod Created 
+[2026-02-16T16:08:38.416Z]  Container taskflow-frontend-prod Creating 
+[2026-02-16T16:08:38.416Z]  Container taskflow-frontend-prod Created 
+[2026-02-16T16:08:38.416Z]  Container taskflow-backend-prod Starting 
+[2026-02-16T16:08:38.967Z]  Container taskflow-backend-prod Started 
+[2026-02-16T16:08:38.967Z]  Container taskflow-frontend-prod Starting 
+[2026-02-16T16:08:39.517Z]  Container taskflow-frontend-prod Started 
+[2026-02-16T16:08:51.614Z] time="2026-02-16T16:08:49Z" level=warning msg="/home/ec2-user/taskflow/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[2026-02-16T16:08:51.614Z] NAME                     IMAGE                                                               COMMAND                  SERVICE             CREATED          STATUS                             PORTS
+[2026-02-16T16:08:51.614Z] taskflow-backend-prod    697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19    "docker-entrypoint.s���"   taskflow-backend    11 seconds ago   Up 10 seconds (health: starting)   0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp
+[2026-02-16T16:08:51.614Z] taskflow-frontend-prod   697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19   "/docker-entrypoint.���"   taskflow-frontend   11 seconds ago   Up 10 seconds (health: starting)   0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp
+[2026-02-16T16:08:51.614Z]   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+[2026-02-16T16:08:51.614Z]                                  Dload  Upload   Total   Spent    Left  Speed
+[2026-02-16T16:08:51.614Z] [2026-02-16T16:08:51.614Z]   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0{"status":"healthy","timestamp":"2026-02-16T16:08:49.512Z","tasksCount":0}[2026-02-16T16:08:51.614Z] 100    74  100    74    0     0   7268      0 --:--:-- --:--:-- --:--:--  7400
+[2026-02-16T16:08:51.614Z] ��������� Deployment successful!
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Health Check)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:08:51.761Z] ���� Running health checks...
+[Pipeline] sh
+[2026-02-16T16:08:52.029Z] + ssh -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no ec2-user@54.170.165.207 '
+[2026-02-16T16:08:52.029Z]                                 curl -s http://localhost/health | grep healthy
+[2026-02-16T16:08:52.029Z]                             '
+[2026-02-16T16:08:52.029Z] Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts).
+[2026-02-16T16:08:52.029Z] {"status":"healthy","timestamp":"2026-02-16T16:08:51.993Z","tasksCount":0}
+[Pipeline] echo
+[2026-02-16T16:08:52.052Z] ��� Application is healthy!
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+[2026-02-16T16:08:52.191Z] ���� Cleaning up...
+[Pipeline] sh
+[2026-02-16T16:08:52.456Z] + docker image prune -f
+[2026-02-16T16:08:52.456Z] Total reclaimed space: 0B
+[2026-02-16T16:08:52.456Z] + docker container prune -f
+[2026-02-16T16:08:52.456Z] Total reclaimed space: 0B
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] echo
+[2026-02-16T16:08:52.510Z] ��� ==================================
+[Pipeline] echo
+[2026-02-16T16:08:52.522Z] ��� PIPELINE COMPLETED SUCCESSFULLY!
+[Pipeline] echo
+[2026-02-16T16:08:52.533Z] ��� ==================================
+[Pipeline] echo
+[2026-02-16T16:08:52.545Z] Backend Image: 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-backend:19
+[Pipeline] echo
+[2026-02-16T16:08:52.559Z] Frontend Image: 697863031884.dkr.ecr.eu-west-1.amazonaws.com/taskflow-frontend:19
+[Pipeline] echo
+[2026-02-16T16:08:52.571Z] Deployed to: http://54.170.165.207
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // timestamps
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
