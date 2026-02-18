@@ -57,46 +57,87 @@ TaskFlow is a full-stack task management application developed as part of an Agi
 - Docker (for containerized deployment)
 - Jenkins (for CI/CD pipeline)
 
+## Installation & Setup
+
+### Prerequisites
+- Node.js 18+ and npm
+- Git
+- Docker (for containerized deployment)
+- Jenkins (for CI/CD pipeline)
+
+### Project Structure & Running Apps
+
+This repository uses a monorepo layout with both backend and frontend apps in their own folders.
+There is **no package.json at the project root**.
+**All npm commands should be run in the appropriate subdirectory.**
+
+```
+Jenkins-project/
+├── backend/    # Node.js/Express server
+└── frontend/   # React app
+```
+
 ### Installation Steps
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/AbrahamGyamfi/Jenkins-project.git
-   cd Jenkins-project
-   ```
+    ```bash
+    git clone https://github.com/AbrahamGyamfi/Jenkins-project.git
+    cd Jenkins-project
+    ```
 
 2. **Install backend dependencies**
-   ```bash
-   npm install
-   ```
+    ```bash
+    cd backend
+    npm install
+    ```
 
 3. **Install frontend dependencies**
-   ```bash
-   cd frontend
-   npm install
-   cd ..
-   ```
+    ```bash
+    cd ../frontend
+    npm install
+    ```
 
-4. **Run tests**
-   ```bash
-   npm test
-   ```
+### Running the Backend Server
+(from the project root)
+```bash
+cd backend
+npm start
+# Server runs on http://localhost:5000
+```
 
-5. **Start the backend server**
-   ```bash
-   npm start
-   # Server runs on http://localhost:5000
-   ```
+### Running the Frontend App
+(from the project root)
+```bash
+cd frontend
+npm start
+# Frontend runs on http://localhost:3000
+```
 
-6. **Start the frontend (in a new terminal)**
-   ```bash
-   cd frontend
-   npm start
-   # Frontend runs on http://localhost:3000
-   ```
+### Running Tests
 
-7. **Access the application**
-   Open your browser and navigate to `http://localhost:3000`
+- **Backend tests**
+    ```bash
+    cd backend
+    npm test
+    ```
+    To run with coverage:
+    ```bash
+    npm test -- --coverage
+    ```
+
+- **Frontend tests**
+    ```bash
+    cd frontend
+    npm test
+    ```
+    To run with coverage:
+    ```bash
+    npm test -- --coverage
+    ```
+
+### Access the Application
+
+Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
 ## Testing
 
@@ -119,8 +160,7 @@ npm test -- --coverage
 The project implements a complete end-to-end Jenkins CI/CD pipeline that builds, tests, containerizes, and deploys the application to AWS EC2.
 
 ### Live Infrastructure
-- **Jenkins Server**: http://3.254.103.42:8080 (EC2 t3.medium, Jenkins 2.541.1)
-- **Production App**: http://54.170.165.207 (EC2 t3.micro)
+- **Production App**: http://34.245.23.234/ (EC2 t3.micro)
 - **AWS Region**: eu-west-1 (Ireland)
 - **Registry**: AWS ECR (697863031884.dkr.ecr.eu-west-1.amazonaws.com)
 
@@ -164,14 +204,6 @@ docker run --rm -v $(pwd):/app -w /app node:18-alpine sh -c 'npm install --legac
 - Form submission and user interactions
 - Task filtering (All/Active/Completed)
 - API integration and error handling
-
-### CI/CD Evidence
-See [CI_CD_EVIDENCE.md](CI_CD_EVIDENCE.md) for:
-- Complete Build #18 logs and analysis
-- Test execution details and results
-- Docker build output
-- Deployment verification
-- Troubleshooting history
 
 ## Docker Deployment
 
