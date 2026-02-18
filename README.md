@@ -354,32 +354,9 @@ This project demonstrates:
 5. Git workflow with meaningful commit history
 6. Code quality and documentation standards
 
-## Contributing
 
-This is an individual project for academic assessment. Contributions are not accepted.
 
-## License
-
-MIT License - This is an educational project.
-
-## Support
-
-For issues or questions, please refer to the project documentation or contact the project maintainer.
-
----
-
-## Quick Links
-
-- **GitHub Repository**: https://github.com/AbrahamGyamfi/Jenkins-project.git
-- **Jenkins Dashboard**: http://3.254.103.42:8080/job/TaskFlow-Pipeline/
-- **Live Application**: http://54.170.165.207
-- **API Health Check**: http://54.170.165.207/health
-- **AWS ECR**: 697863031884.dkr.ecr.eu-west-1.amazonaws.com
-
----
 
 **Project Date**: February 2026  
 **Version**: 1.0.0  
 **Status**: Completed  
-**Total Commits**: 115 commits across 12 branches  
-**Pipeline Builds**: 19 successful automated builds
