@@ -2,9 +2,10 @@ pipeline {
     agent any
     
     environment {
-        // AWS ECR Configuration
-        AWS_REGION = 'eu-west-1'
-        AWS_ACCOUNT_ID = '697863031884'
+        // AWS Configuration (from Jenkins credentials)
+        AWS_REGION = credentials('aws-region')
+        AWS_ACCOUNT_ID = credentials('aws-account-id')
+        APP_SERVER_IP = credentials('app-server-ip')
         ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         AWS_CREDENTIALS_ID = 'aws-credentials'
         
@@ -14,8 +15,8 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
         
         // EC2 Deployment Server
-        EC2_CREDENTIALS_ID = 'ec2-ssh-key'
-        EC2_HOST = '54.170.165.207'
+        EC2_CREDENTIALS_ID = 'app-server-ssh'
+        EC2_HOST = "${APP_SERVER_IP}"
         EC2_USER = 'ec2-user'
         
         // Application
@@ -216,24 +217,25 @@ pipeline {
             steps {
                 script {
                     echo '📤 Pushing images to AWS ECR...'
-                    
-                    // Login to ECR using AWS CLI (credentials already configured)
-                    sh """
-                        aws ecr get-login-password --region ${AWS_REGION} | \
-                        docker login --username AWS --password-stdin ${ECR_REGISTRY}
-                    """
-                    
-                    // Push backend images
-                    sh """
-                        docker push ${BACKEND_IMAGE}:${IMAGE_TAG}
-                        docker push ${BACKEND_IMAGE}:latest
-                    """
-                    
-                    // Push frontend images
-                    sh """
-                        docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
-                        docker push ${FRONTEND_IMAGE}:latest
-                    """
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
+                        // Login to ECR using Jenkins-managed AWS credentials
+                        sh """
+                            aws ecr get-login-password --region ${AWS_REGION} | \
+                            docker login --username AWS --password-stdin ${ECR_REGISTRY}
+                        """
+                        
+                        // Push backend images
+                        sh """
+                            docker push ${BACKEND_IMAGE}:${IMAGE_TAG}
+                            docker push ${BACKEND_IMAGE}:latest
+                        """
+                        
+                        // Push frontend images
+                        sh """
+                            docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
+                            docker push ${FRONTEND_IMAGE}:latest
+                        """
+                    }
                     
                     echo "✅ Images pushed successfully to ECR!"
                     echo "Backend: ${BACKEND_IMAGE}:${IMAGE_TAG}"
@@ -246,52 +248,59 @@ pipeline {
             steps {
                 script {
                     echo '🚀 Deploying to EC2...'
-                    
-                    // Create deployment directory
-                    sh """
-                        ssh -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
-                            mkdir -p ~/taskflow
-                        '
-                    """
-                    
-                    // Copy docker-compose file
-                    sh """
-                        scp -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no \
-                            docker-compose.prod.yml \
-                            ${EC2_USER}@${EC2_HOST}:~/taskflow/docker-compose.yml
-                    """
-                    
-                    // Deploy application
-                    sh """
-                        ssh -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
-                            cd ~/taskflow
-                            
-                            # Login to ECR
+                    withCredentials([
+                        [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"],
+                        sshUserPrivateKey(credentialsId: "${EC2_CREDENTIALS_ID}", keyFileVariable: 'SSH_KEY_FILE')
+                    ]) {
+                        // Create deployment directory
+                        sh """
+                            ssh -i "\${SSH_KEY_FILE}" -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                                mkdir -p ~/${APP_NAME}
+                            '
+                        """
+                        
+                        // Copy docker-compose file
+                        sh """
+                            scp -i "\${SSH_KEY_FILE}" -o StrictHostKeyChecking=no \
+                                docker-compose.prod.yml \
+                                ${EC2_USER}@${EC2_HOST}:~/${APP_NAME}/docker-compose.yml
+                        """
+                        
+                        // Login to ECR on remote host using token generated on Jenkins
+                        sh """
                             aws ecr get-login-password --region ${AWS_REGION} | \
-                            docker login --username AWS --password-stdin ${ECR_REGISTRY}
-                            
-                            # Pull latest images
-                            docker pull ${BACKEND_IMAGE}:${IMAGE_TAG}
-                            docker pull ${FRONTEND_IMAGE}:${IMAGE_TAG}
-                            
-                            # Stop existing containers
-                            docker-compose down || true
-                            
-                            # Start new containers
-                            IMAGE_TAG=${IMAGE_TAG} docker-compose up -d
-                            
-                            # Wait for services to be healthy
-                            sleep 10
-                            
-                            # Check container status
-                            docker-compose ps
-                            
-                            # Verify application is running
-                            curl -f http://localhost/health || exit 1
-                            
-                            echo "✅ Deployment successful!"
-                        '
-                    """
+                            ssh -i "\${SSH_KEY_FILE}" -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} \
+                            "docker login --username AWS --password-stdin ${ECR_REGISTRY}"
+                        """
+                        
+                        // Deploy application
+                        sh """
+                            ssh -i "\${SSH_KEY_FILE}" -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                                cd ~/${APP_NAME}
+                                
+                                # Pull latest images
+                                docker pull ${BACKEND_IMAGE}:${IMAGE_TAG}
+                                docker pull ${FRONTEND_IMAGE}:${IMAGE_TAG}
+                                
+                                # Stop existing containers
+                                docker-compose down || true
+                                
+                                # Start new containers
+                                IMAGE_TAG=${IMAGE_TAG} docker-compose up -d
+                                
+                                # Wait for services to be healthy
+                                sleep 10
+                                
+                                # Check container status
+                                docker-compose ps
+                                
+                                # Verify application is running
+                                curl -f http://localhost/health || exit 1
+                                
+                                echo "✅ Deployment successful!"
+                            '
+                        """
+                    }
                 }
             }
         }
@@ -300,15 +309,18 @@ pipeline {
             steps {
                 script {
                     echo '🏥 Running health checks...'
+                    def healthStatus
                     
-                    def healthStatus = sh(
-                        script: """
-                            ssh -i /var/lib/jenkins/.ssh/taskflow-key.pem -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
-                                curl -s http://localhost/health | grep healthy
-                            '
-                        """,
-                        returnStatus: true
-                    )
+                    withCredentials([sshUserPrivateKey(credentialsId: "${EC2_CREDENTIALS_ID}", keyFileVariable: 'SSH_KEY_FILE')]) {
+                        healthStatus = sh(
+                            script: """
+                                ssh -i "\${SSH_KEY_FILE}" -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                                    curl -s http://localhost/health | grep healthy
+                                '
+                            """,
+                            returnStatus: true
+                        )
+                    }
                     
                     if (healthStatus == 0) {
                         echo "✅ Application is healthy!"
